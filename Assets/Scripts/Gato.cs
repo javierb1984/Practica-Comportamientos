@@ -1,29 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Gato : MonoBehaviour {
 
-	private void walkTo(Vector3 destination){}
+    public NavMeshAgent agent;
+    private Mundo mundo;
+    private float walkingSpeed = 3.5f;
+    private float runningSpeed = 7f;
 
-	private void runTo(Vector3 destination){}
+    void Awake()
+    {
+        mundo = FindObjectOfType<Mundo>();
+        agent = transform.GetComponent<NavMeshAgent>();
+        //agent.Warp(mundo.cojines[0].transform.position);
+    }
 
-	private void pick(/*Item item*/){}
+	protected void walkTo(Vector3 destination){
+        agent.speed = walkingSpeed;
+        //Animación de caminar
+        agent.SetDestination(destination);
+    }
 
-	private void idle(){}
+    protected void runTo(Vector3 destination){
+        agent.speed = runningSpeed;
+        //Animación de correr
+        agent.SetDestination(destination);
 
-	private void sitDown(Vector3 lookAt){}
+    }
 
-	private void getUp(){}
+    protected void pick(GameObject plato){
+        //Animación de coger
+        Destroy(plato);
+    }
 
-	private void eat(/*Item food*/){}
+    //Animación inversa a pick
+    protected void set(string plato) { }
 
-	private void cook(/*Item food*/){}
+    protected void idle(){}
 
-	private void play(/*Item item*/){}
+    protected void sitDown(Vector3 lookAt){}
 
-	private void angry(Vector3 lookAt){}
+    protected void getUp(){}
 
-	private void shamed(Vector3 lookAt){}
+    protected void eat(/*Item food*/){}
+
+    protected void cook(/*Item food*/){}
+
+    protected void play(/*Item item*/){}
+
+    protected void angry(Vector3 lookAt){}
+
+    protected void shamed(Vector3 lookAt){}
 
 }
