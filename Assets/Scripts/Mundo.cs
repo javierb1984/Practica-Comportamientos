@@ -9,9 +9,11 @@ public class Mundo : MonoBehaviour
     public GameObject mesaPedidos;
     public Vector3 puestoCamareros;
     public Vector3 puestoMaitre;
+
     public Vector3 principioCola;
     public Vector3 puestoCaco;
     public Vector3 puertaTrasera;
+
 
     //Private parameters
     private int MAX_COMANDAS = 9;
@@ -31,6 +33,9 @@ public class Mundo : MonoBehaviour
     //Números de mesa de los clientes por atender
     private Queue<int> clientesPorAtender;
 
+    //Cola con los clientes esperando al maitre
+    private Queue<Cliente> ColaMaitre;
+
     private List<bool> mesasOcupadas;
 
     //Plato que está cocinando el cocinero
@@ -43,6 +48,7 @@ public class Mundo : MonoBehaviour
         platos = new Queue<Plato>(MAX_PLATOS);
         mesasOcupadas = new List<bool>(mesas.Count);
         clientesPorAtender = new Queue<int>(mesas.Count);
+
         clientesCola = new Queue<GameObject>(MAX_COLA);
         platoCocinero = null;
 
@@ -51,6 +57,9 @@ public class Mundo : MonoBehaviour
         {
             mesasOcupadas[i] = false;
         }
+
+        ColaMaitre = new Queue<Cliente>();
+
     }
 
     //Métodos para acceder a comandas
@@ -65,11 +74,11 @@ public class Mundo : MonoBehaviour
     /// <summary>
     /// Añade una comanda al final de la cola de comandas si no está llena.
     /// </summary>
-    public void pushComanda(int mesa, string comanda)
+    public void pushComanda(int mesa, string comida)
     {
         if (comandas.Count <= MAX_COMANDAS)
         {
-            comandas.Enqueue(new Plato(mesa, comanda, null));
+            comandas.Enqueue(new Plato(mesa, comida, null));
         }
     }
 
@@ -251,4 +260,18 @@ public class Mundo : MonoBehaviour
     {
         return platoCocinero;
     }
+
+    /// 
+    /// 
+    /// </summary>
+    public void pushColaMaitre(Cliente gato) {
+        ColaMaitre.Enqueue(gato);
+    }
+
+    public bool estaEnColaMaitre(Cliente gato)
+    {
+        return ColaMaitre.Contains(gato);
+    }
+ 
+
 }
