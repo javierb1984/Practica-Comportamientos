@@ -9,6 +9,7 @@ public class Gato : MonoBehaviour {
     protected Mundo mundo;
     private float walkingSpeed = 3.5f;
     private float runningSpeed = 7f;
+    private bool estaSentado = false;
 
     void Awake()
     {
@@ -35,14 +36,26 @@ public class Gato : MonoBehaviour {
         Destroy(plato);
     }
 
+    protected bool isAt(Vector3 target)
+    {
+        return Vector3.Distance(transform.position, target) < 0.5f;
+    }
+
     //Animación inversa a pick
     protected void set(string plato) { }
 
     protected void idle(){}
 
-    protected void sitDown(Vector3 lookAt){}
+    //Se podría cambiar como unico del cliente que es el unico que se sienta
+    protected void sitDown(Vector3 lookAt){
+        //animacion;
+        estaSentado = true;
+    }
 
-    protected void getUp(){}
+    protected void getUp(){
+        //animacion
+        estaSentado = false;
+    }
 
     protected void eat(/*Item food*/){}
 
