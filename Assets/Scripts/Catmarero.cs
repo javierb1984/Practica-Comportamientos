@@ -6,7 +6,6 @@ public class Catmarero : Gato {
 
     private enum EstadosFSM1 { ESPERAR, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, TOMAR_NOTA, LLEVAR_COMANDA, VOLVER }
     private EstadosFSM1 estadoActual;
-    private Mundo mundo;
     private string pedidoActual = null;
 
     //Número de mesa del cliente actual
@@ -20,7 +19,6 @@ public class Catmarero : Gato {
 
     //Inicialización de variables de mundo
     void Start () {
-        mundo = FindObjectOfType<Mundo>();
         puestoCamarero = mundo.puestoCamareros;
         posMesaPedidos = mundo.mesaPedidos.transform.position;
         estadoActual = EstadosFSM1.ESPERAR;

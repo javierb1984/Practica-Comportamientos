@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Gato : MonoBehaviour {
 
     public NavMeshAgent agent;
-    private Mundo mundo;
+    protected Mundo mundo;
     private float walkingSpeed = 3.5f;
     private float runningSpeed = 7f;
 
