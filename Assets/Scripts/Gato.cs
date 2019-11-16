@@ -15,16 +15,20 @@ public class Gato : MonoBehaviour {
     {
         mundo = FindObjectOfType<Mundo>();
         agent = transform.GetComponent<NavMeshAgent>();
-        //agent.Warp(mundo.cojines[0].transform.position);
     }
 
-	protected void walkTo(Vector3 destination){
+    public bool isInPosition(Vector3 position)
+    {
+        return Vector3.Distance(transform.position, position) <= 1.1f;
+    }
+
+	public void walkTo(Vector3 destination){
         agent.speed = walkingSpeed;
         //Animación de caminar
         agent.SetDestination(destination);
     }
 
-    protected void runTo(Vector3 destination){
+    public void runTo(Vector3 destination){
         agent.speed = runningSpeed;
         //Animación de correr
         agent.SetDestination(destination);

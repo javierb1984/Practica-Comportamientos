@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Mundo : MonoBehaviour
 {
     //Public parameters
@@ -9,11 +10,16 @@ public class Mundo : MonoBehaviour
     public GameObject mesaPedidos;
     public Vector3 puestoCamareros;
     public Vector3 puestoMaitre;
-
     public Vector3 principioCola;
     public Vector3 puestoCaco;
     public Vector3 puertaTrasera;
 
+    //Distancia entre los clientes en la cola
+    public float distanciaCola = 1.0f;
+
+    //Rango de spawn de Clientes
+    public Vector3 minSpawnCliente;
+    public Vector3 maxSpawnCliente;
 
     //Private parameters
     private int MAX_COMANDAS = 9;
@@ -28,15 +34,14 @@ public class Mundo : MonoBehaviour
     private Queue<Plato> platos;
 
     //Clientes por sentarse
-    private Queue<GameObject> clientesCola;
+    private Queue<Cliente> clientesCola;
+
+
 
     //Números de mesa de los clientes por atender
     private Queue<int> clientesPorAtender;
 
-    //Cola con los clientes esperando al maitre
-    private Queue<Cliente> ColaMaitre;
-
-    private List<bool> mesasOcupadas;
+    private bool [] mesasOcupadas;
 
     //Plato que está cocinando el cocinero
     private Plato platoCocinero;
@@ -44,22 +49,18 @@ public class Mundo : MonoBehaviour
 
     void Awake()
     {
-        comandas = new Queue<Plato>(MAX_COMANDAS);
-        platos = new Queue<Plato>(MAX_PLATOS);
-        mesasOcupadas = new List<bool>(mesas.Count);
-        clientesPorAtender = new Queue<int>(mesas.Count);
+        comandas = new Queue<Plato>();
+        platos = new Queue<Plato>();
+        mesasOcupadas = new bool[mesas.Count];
+        clientesPorAtender = new Queue<int>();
 
-        clientesCola = new Queue<GameObject>(MAX_COLA);
+        clientesCola = new Queue<Cliente>();
         platoCocinero = null;
 
-        //Por si no se inicializa a false la lista
-        for(int i = 0; i < mesasOcupadas.Capacity; i++)
+        for(int i = 0; i < mesasOcupadas.Length; i++)
         {
             mesasOcupadas[i] = false;
         }
-
-        ColaMaitre = new Queue<Cliente>();
-
     }
 
     //Métodos para acceder a comandas
@@ -177,7 +178,16 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public bool mesasIsFull()
     {
-        return !mesasOcupadas.Contains(false);
+        bool full = true;
+        foreach(bool mesa in mesasOcupadas)
+        {
+            if (!mesa)
+            {
+                full = false;
+                break;
+            }
+        }
+        return full;
     }
 
     /// <summary>
@@ -186,9 +196,9 @@ public class Mundo : MonoBehaviour
     public int nextMesa()
     {
         int mesa = -1;
-        for(int i = 0; i < mesasOcupadas.Count; i++)
+        for(int i = 0; i < mesasOcupadas.Length; i++)
         {
-            if(mesasOcupadas[i] == true)
+            if(mesasOcupadas[i] == false)
             {
                 mesa = i;
                 break;
@@ -201,26 +211,39 @@ public class Mundo : MonoBehaviour
     //Métodos para gestionar la cola de clientes
     /// <summary>
     ///Inserta un cliente al final de la cola si no está llena.
+    ///Devuelve la siguiente posición libre en la cola
     /// </summary>
-    public void pushClienteCola(GameObject cliente)
+    public void pushClienteCola(Cliente cliente)
     {
-        if (!colaIsFull())
-        {
-            clientesCola.Enqueue(cliente);
-            //El cliente tendrá que moverse al ((principio de la cola) + n * (número de clientes))
-        }
+        clientesCola.Enqueue(cliente);
+    }
+
+    public Vector3 getNextCola()
+    {
+        //El cliente tendrá que moverse al ((principio de la cola) + n * (número de clientes))
+        Vector3 aux = principioCola;
+        aux.z += distanciaCola * clientesCola.Count;
+        return aux;
     }
 
     /// <summary>
     ///Quita el cliente de la cabecera de la cola si no está vacía y lo devuelve.
     /// </summary>
-    public GameObject popClienteCola()
+    public Cliente popClienteCola()
     {
         if (colaIsEmpty())
             return null;
+        Cliente aux = clientesCola.Dequeue();
 
         //Todos los clientes tendrán que moverse n hacia delante
-        return clientesCola.Dequeue();
+        foreach(Cliente cliente in clientesCola.ToArray())
+        {
+            Vector3 v = cliente.transform.position;
+            v.z += distanciaCola;
+            cliente.walkTo(v);
+        }
+
+        return aux;
     }
 
     /// <summary>
@@ -259,19 +282,6 @@ public class Mundo : MonoBehaviour
     public Plato pollPlato()
     {
         return platoCocinero;
-    }
-
-    /// 
-    /// 
-    /// </summary>
-    public void pushColaMaitre(Cliente gato) {
-        ColaMaitre.Enqueue(gato);
-    }
-
-    public bool estaEnColaMaitre(Cliente gato)
-    {
-        return ColaMaitre.Contains(gato);
-    }
- 
+    } 
 
 }

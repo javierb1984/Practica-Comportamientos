@@ -8,7 +8,7 @@ public class Maitre : Gato
     private EstadosFSM estadoActual;
 
     //Habrá que cambiar el GameObject por Cliente
-    private GameObject clienteActual;
+    private Cliente clienteActual;
 
     //Número de mesa del cliente actual
     private int mesaActual;
@@ -19,6 +19,7 @@ public class Maitre : Gato
     void Start()
     {
         puestoMaitre = mundo.puestoMaitre;
+        transform.position = puestoMaitre;
         estadoActual = EstadosFSM.ESPERAR;
     }
 
@@ -33,25 +34,32 @@ public class Maitre : Gato
         {
             case EstadosFSM.ESPERAR:
                 if (!mundo.colaIsEmpty() && !mundo.mesasIsFull())
+                {
+                    mesaActual = mundo.nextMesa();
+                    clienteActual = mundo.popClienteCola();
+                    clienteActual.concedeMesa(mesaActual);
                     estadoActual = EstadosFSM.LLEVAR_CLIENTE;
+                }
             break;
 
             case EstadosFSM.LLEVAR_CLIENTE:
-                clienteActual = mundo.popClienteCola();
-                mesaActual = mundo.nextMesa();
-                //Llamada a función del cliente para que deje de esperar y le siga
-                walkTo(mundo.mesas[mesaActual].transform.position);
-                estadoActual = EstadosFSM.SENTAR;
+                Vector3 position = mundo.mesas[mesaActual].transform.GetChild(0).position;
+                walkTo(position);
+
+                if(isInPosition(position))
+                    estadoActual = EstadosFSM.SENTAR;
             break;
 
             case EstadosFSM.SENTAR:
-                //Llamada al cliente para que se siente
+                clienteActual.sentar();
                 estadoActual = EstadosFSM.VOLVER;
             break;
 
             case EstadosFSM.VOLVER:
                 walkTo(puestoMaitre);
-                estadoActual = EstadosFSM.ESPERAR;
+
+                if(isInPosition(puestoMaitre))
+                    estadoActual = EstadosFSM.ESPERAR;
             break;
         }
     }
