@@ -106,10 +106,15 @@ public class Cliente : Gato
                 if (avisoSentarse)
                 {
                     timer = Random.Range(5, 20);//reutilizar timer o usar uno nuevo
-                    walkTo(mundo.mesas[mesaActual].transform.position);
-                    mundo.pushCliente(mesaActual);
+                    Vector3 position = mundo.mesas[mesaActual].transform.position;
+                    walkTo(position);                    
 
-                    estadoActual = EstadosFSM.DECIDIR_MENU;
+                    if (isInPosition(position))
+                    {
+                        maitre.Sentado();
+                        mundo.pushCliente(mesaActual, this);
+                        estadoActual = EstadosFSM.DECIDIR_MENU;
+                    }
                 }
                 break;
 
@@ -117,7 +122,7 @@ public class Cliente : Gato
                 avisoMaitre = false;
                 if (timer > 0)
                     timer -= Time.deltaTime;
-                else if(timer == 0){
+                else if(timer <= 0){
                     decidido = true;
                     timer -= Time.deltaTime;
                 }
@@ -183,6 +188,7 @@ public class Cliente : Gato
     {
         mesaActual = mesa;
         avisoMaitre = true;
+        //////////
     }
 
     public void sentar()

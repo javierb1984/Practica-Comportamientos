@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plato : MonoBehaviour
+public class Plato
 {
     public int mesa;
     public string comida;

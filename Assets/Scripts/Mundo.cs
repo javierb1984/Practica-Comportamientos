@@ -13,6 +13,7 @@ public class Mundo : MonoBehaviour
     public Vector3 principioCola;
     public Vector3 puestoCaco;
     public Vector3 puertaTrasera;
+    public Vector3 muroComandas;
 
     //Distancia entre los clientes en la cola
     public float distanciaCola = 1.0f;
@@ -36,6 +37,8 @@ public class Mundo : MonoBehaviour
     //Clientes por sentarse
     private Queue<Cliente> clientesCola;
 
+    //Clientes en sus mesas
+    private Cliente [] clientesEnMesas;
 
 
     //Números de mesa de los clientes por atender
@@ -52,6 +55,7 @@ public class Mundo : MonoBehaviour
         comandas = new Queue<Plato>();
         platos = new Queue<Plato>();
         mesasOcupadas = new bool[mesas.Count];
+        clientesEnMesas = new Cliente[mesas.Count];
         clientesPorAtender = new Queue<int>();
 
         clientesCola = new Queue<Cliente>();
@@ -159,10 +163,16 @@ public class Mundo : MonoBehaviour
     ///Inserta un cliente al final de la cola de clientes por atender.
     ///Uso exclusivo de cliente.
     /// </summary>
-    public void pushCliente(int mesa)
+    public void pushCliente(int mesa, Cliente cliente)
     {
         clientesPorAtender.Enqueue(mesa);
+        clientesEnMesas[mesa] = cliente;
         mesasOcupadas[mesa] = true;
+    }
+
+    public Cliente getClienteEnMesa(int mesa)
+    {
+        return clientesEnMesas[mesa];
     }
 
     /// <summary>

@@ -16,10 +16,14 @@ public class Maitre : Gato
     //Referencias a posiciones
     private Vector3 puestoMaitre;
 
+    //El cliente se ha sentado
+    private bool clienteSentado;
+
     void Start()
     {
         puestoMaitre = mundo.puestoMaitre;
         transform.position = puestoMaitre;
+        clienteSentado = false;
         estadoActual = EstadosFSM.ESPERAR;
     }
 
@@ -52,15 +56,22 @@ public class Maitre : Gato
 
             case EstadosFSM.SENTAR:
                 clienteActual.sentar();
-                estadoActual = EstadosFSM.VOLVER;
+                if(clienteSentado)
+                    estadoActual = EstadosFSM.VOLVER;
             break;
 
             case EstadosFSM.VOLVER:
+                clienteSentado = false;
                 walkTo(puestoMaitre);
 
                 if(isInPosition(puestoMaitre))
                     estadoActual = EstadosFSM.ESPERAR;
             break;
         }
+    }
+
+    public void Sentado()
+    {
+        clienteSentado = true;
     }
 }

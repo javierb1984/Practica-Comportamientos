@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject maitre;
     public GameObject cliente;
+    public GameObject catmarero;
 
     private float countdown;
 
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     {
         countdown = Random.Range(1, 10);
         Instantiate(maitre);
+        Instantiate(catmarero);
         Instantiate(cliente);
     }
 

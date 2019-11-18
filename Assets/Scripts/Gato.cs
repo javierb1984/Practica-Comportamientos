@@ -7,8 +7,8 @@ public class Gato : MonoBehaviour {
 
     public NavMeshAgent agent;
     protected Mundo mundo;
-    private float walkingSpeed = 3.5f;
-    private float runningSpeed = 7f;
+    private float walkingSpeed = 3f;
+    private float runningSpeed = 6f;
     private bool estaSentado = false;
 
     void Awake()

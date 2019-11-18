@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Catmarero : Gato {
 
-    private enum EstadosFSM1 { ESPERAR, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, TOMAR_NOTA, LLEVAR_COMANDA, VOLVER }
+    private enum EstadosFSM1 { ESPERAR, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, MISMA_MESA, CONSULTAR_CLIENTE, TOMAR_NOTA, LLEVAR_COMANDA, ESCRIBIR_COMANDA, VOLVER }
     private EstadosFSM1 estadoActual;
     private string pedidoActual = null;
 
@@ -14,12 +14,16 @@ public class Catmarero : Gato {
     //Referencias a posiciones
     private Vector3 puestoCamarero;
     private Vector3 posMesaPedidos;
-    private Vector3 clienteActual;
+    private Vector3 posMesaCliente;
     private Vector3 muroComandas;
+
+    private Cliente clienteActual;
 
     //Inicialización de variables de mundo
     void Start () {
         puestoCamarero = mundo.puestoCamareros;
+        muroComandas = mundo.muroComandas;
+        transform.position = puestoCamarero;
         posMesaPedidos = mundo.mesaPedidos.transform.position;
         estadoActual = EstadosFSM1.ESPERAR;
 	}
@@ -36,8 +40,10 @@ public class Catmarero : Gato {
             case EstadosFSM1.ESPERAR:
                 if (mundo.hayPlatos())
                     estadoActual = EstadosFSM1.COGER_PEDIDO;
+
                 else if (mundo.clientesSinAtender())
                     estadoActual = EstadosFSM1.IR_MESA;
+
             break;
 
             //INNECESARIO
@@ -50,13 +56,13 @@ public class Catmarero : Gato {
                 walkTo(posMesaPedidos);
                 Plato platoActual = mundo.takePlato();
                 pedidoActual = platoActual.comida;
-                clienteActual = mundo.mesas[platoActual.mesa].transform.position;
+                posMesaCliente = mundo.mesas[platoActual.mesa].transform.position;
                 pick(platoActual.plato);
                 estadoActual = EstadosFSM1.LLEVAR_PEDIDO;
             break;
 
             case EstadosFSM1.LLEVAR_PEDIDO:
-                walkTo(clienteActual);
+                walkTo(posMesaCliente);
                 set(pedidoActual);
                 pedidoActual = null;
                 estadoActual = EstadosFSM1.VOLVER;
@@ -64,24 +70,37 @@ public class Catmarero : Gato {
 
             case EstadosFSM1.IR_MESA:
                 mesaActual = mundo.clientePorAtender();
-                clienteActual = mundo.mesas[mesaActual].transform.position;
-                walkTo(clienteActual);
 
-                //Añadir método del cliente
-                bool decidido = true;
+                clienteActual = mundo.getClienteEnMesa(mesaActual);
+                posMesaCliente = mundo.mesas[mesaActual].transform.GetChild(0).position;
+                walkTo(posMesaCliente);
 
-                if (decidido)
+                if (isInPosition(posMesaCliente))
+                {
+
+                    estadoActual = EstadosFSM1.CONSULTAR_CLIENTE;
+                }
+            break;
+
+            case EstadosFSM1.MISMA_MESA:
+                
+                break;
+
+            case EstadosFSM1.CONSULTAR_CLIENTE:
+
+                if (clienteActual.estaDecidido())
                 {
                     estadoActual = EstadosFSM1.TOMAR_NOTA;
                 }
                 else
                 {
                     //Si no se ha decidido pasamos al cliente al final de la cola
-                    mundo.pushCliente(mundo.popCliente());
+                    int mesa = mundo.popCliente();
+                    mundo.pushCliente(mesa, mundo.getClienteEnMesa(mesa));
                     estadoActual = EstadosFSM1.VOLVER;
                 }
 
-            break;
+                break;
 
             case EstadosFSM1.TOMAR_NOTA:
                 Plato actual = mundo.clienteAtendido();
@@ -91,14 +110,24 @@ public class Catmarero : Gato {
 
             case EstadosFSM1.LLEVAR_COMANDA:
                 walkTo(muroComandas);
-                //set(pedidoActual);
+
+                if (isInPosition(muroComandas))
+                {
+                    estadoActual = EstadosFSM1.ESCRIBIR_COMANDA;
+                }
+
+            break;
+
+            case EstadosFSM1.ESCRIBIR_COMANDA:
                 mundo.pushComanda(mesaActual, pedidoActual);
                 estadoActual = EstadosFSM1.VOLVER;
-            break;
+                break;
 
             case EstadosFSM1.VOLVER:
                 walkTo(puestoCamarero);
-                estadoActual = EstadosFSM1.ESPERAR;
+
+                if(isInPosition(puestoCamarero))
+                    estadoActual = EstadosFSM1.ESPERAR;
             break;
         }
     }
