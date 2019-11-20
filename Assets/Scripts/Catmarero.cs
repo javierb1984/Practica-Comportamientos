@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Catmarero : Gato {
 
-    private enum EstadosFSM1 { ESPERAR, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, MISMA_MESA, CONSULTAR_CLIENTE, TOMAR_NOTA, LLEVAR_COMANDA, ESCRIBIR_COMANDA, VOLVER }
+    private enum EstadosFSM1 { ESPERAR, ENTRAR_COCINA, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, MISMA_MESA, CONSULTAR_CLIENTE, TOMAR_NOTA, LLEVAR_COMANDA, VOLVER }
     private EstadosFSM1 estadoActual;
     private string pedidoActual = null;
 
@@ -19,6 +19,10 @@ public class Catmarero : Gato {
 
     private Cliente clienteActual;
 
+    //Esperas necesarias para el catmarero
+    private float timer;
+    private float waitingTime = 1.5f;
+
     //Inicialización de variables de mundo
     void Start () {
         puestoCamarero = mundo.puestoCamareros;
@@ -26,6 +30,7 @@ public class Catmarero : Gato {
         transform.position = puestoCamarero;
         posMesaPedidos = mundo.mesaPedidos.transform.position;
         estadoActual = EstadosFSM1.ESPERAR;
+        timer = waitingTime;
 	}
 
 
@@ -42,18 +47,22 @@ public class Catmarero : Gato {
                     estadoActual = EstadosFSM1.COGER_PEDIDO;
 
                 else if (mundo.clientesSinAtender())
+                {
+                    timer -= Time.deltaTime;
+
+                    if(timer <= 0)
                     estadoActual = EstadosFSM1.IR_MESA;
+                }
 
             break;
 
-            //INNECESARIO
-            /*case EstadosFSM1.ENTRAR_COCINA:
-                walkTo(EntradaCocina);
-                estadoActual = EstadosFSM1.COGER_PEDIDO;
-            break;*/
+            case EstadosFSM1.ENTRAR_COCINA:
+                walkTo(posMesaPedidos);
+                if(isInPosition(posMesaPedidos))
+                    estadoActual = EstadosFSM1.COGER_PEDIDO;
+            break;
 
             case EstadosFSM1.COGER_PEDIDO:
-                walkTo(posMesaPedidos);
                 Plato platoActual = mundo.takePlato();
                 pedidoActual = platoActual.comida;
                 posMesaCliente = mundo.mesas[platoActual.mesa].transform.position;
@@ -63,9 +72,13 @@ public class Catmarero : Gato {
 
             case EstadosFSM1.LLEVAR_PEDIDO:
                 walkTo(posMesaCliente);
-                set(pedidoActual);
-                pedidoActual = null;
-                estadoActual = EstadosFSM1.VOLVER;
+
+                if (isInPosition(posMesaCliente))
+                {
+                    set(pedidoActual);
+                    pedidoActual = null;
+                    estadoActual = EstadosFSM1.VOLVER;
+                }
             break;
 
             case EstadosFSM1.IR_MESA:
@@ -77,27 +90,26 @@ public class Catmarero : Gato {
 
                 if (isInPosition(posMesaCliente))
                 {
-
+                    timer = waitingTime;
                     estadoActual = EstadosFSM1.CONSULTAR_CLIENTE;
                 }
             break;
 
-            case EstadosFSM1.MISMA_MESA:
-                
-                break;
-
             case EstadosFSM1.CONSULTAR_CLIENTE:
-
-                if (clienteActual.estaDecidido())
+                timer -= Time.deltaTime;
+                if (timer <= 0)
                 {
-                    estadoActual = EstadosFSM1.TOMAR_NOTA;
-                }
-                else
-                {
-                    //Si no se ha decidido pasamos al cliente al final de la cola
-                    int mesa = mundo.popCliente();
-                    mundo.pushCliente(mesa, mundo.getClienteEnMesa(mesa));
-                    estadoActual = EstadosFSM1.VOLVER;
+                    if (clienteActual.estaDecidido())
+                    {
+                        estadoActual = EstadosFSM1.TOMAR_NOTA;
+                    }
+                    else
+                    {
+                        //Si no se ha decidido pasamos al cliente al final de la cola
+                        int mesa = mundo.popCliente();
+                        mundo.pushCliente(mesa, mundo.getClienteEnMesa(mesa));
+                        estadoActual = EstadosFSM1.VOLVER;
+                    }
                 }
 
                 break;
@@ -113,21 +125,20 @@ public class Catmarero : Gato {
 
                 if (isInPosition(muroComandas))
                 {
-                    estadoActual = EstadosFSM1.ESCRIBIR_COMANDA;
+                    mundo.pushComanda(mesaActual, pedidoActual);
+                    estadoActual = EstadosFSM1.VOLVER;
                 }
 
             break;
 
-            case EstadosFSM1.ESCRIBIR_COMANDA:
-                mundo.pushComanda(mesaActual, pedidoActual);
-                estadoActual = EstadosFSM1.VOLVER;
-                break;
-
             case EstadosFSM1.VOLVER:
                 walkTo(puestoCamarero);
 
-                if(isInPosition(puestoCamarero))
+                if (isInPosition(puestoCamarero))
+                {
+                    timer = waitingTime;
                     estadoActual = EstadosFSM1.ESPERAR;
+                }
             break;
         }
     }

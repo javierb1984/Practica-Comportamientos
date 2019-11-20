@@ -9,10 +9,12 @@ public class GameManager : MonoBehaviour
     public GameObject catmarero;
 
     private float countdown;
+    private int numClientes;
 
     void Start()
     {
         countdown = Random.Range(1, 10);
+        numClientes = 1;
         Instantiate(maitre);
         Instantiate(catmarero);
         Instantiate(cliente);
@@ -20,13 +22,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(countdown <= 0)
+        if (numClientes < 15)
         {
-            countdown = Random.Range(5, 20);
-            Instantiate(cliente);
-        }
+            if (countdown <= 0)
+            {
+                countdown = Random.Range(5, 20);
+                Instantiate(cliente);
+                numClientes++;
+            }
 
-        countdown -= Time.deltaTime;
+            countdown -= Time.deltaTime;
+        }
     }
 
 }
