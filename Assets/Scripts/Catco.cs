@@ -8,11 +8,13 @@ public class Catco : Gato
     private EstadosFSM estadoActual;
     private Vector3 puestoCaco;
     private Vector3 puertaTrasera;
+    private Vector3 posPlato;
     private bool pillado;
     Plato comida; 
 
     void Start()
     {
+        transform.position = puestoCaco;
         comida = null;
         puertaTrasera = mundo.puertaTrasera;
         puestoCaco = mundo.puestoCaco;
@@ -35,8 +37,14 @@ public class Catco : Gato
 
             case EstadosFSM.ENTRAR:
                 walkTo(puertaTrasera);
-                //If con percepción del cocinero en el camino
-                estadoActual = EstadosFSM.IR_PLATO;
+
+                if (isInPosition(puertaTrasera))
+                {
+                    //If con percepción del cocinero en el camino
+                    Plato plato = mundo.pollPlato();
+                    posPlato = plato.plato.transform.position;
+                    estadoActual = EstadosFSM.IR_PLATO;
+                }
                 break;
 
             case EstadosFSM.IR_PLATO:
@@ -47,8 +55,10 @@ public class Catco : Gato
                 else
                 {
                     Plato plato = mundo.pollPlato();
-                    walkTo(plato.plato.transform.position);
-                    estadoActual = EstadosFSM.COGER_PLATO;
+                    walkTo(posPlato);
+
+                    if(isInPosition(posPlato))
+                        estadoActual = EstadosFSM.COGER_PLATO;
                 }
                 break;
 
@@ -60,11 +70,14 @@ public class Catco : Gato
 
             case EstadosFSM.VOLVER:
                 runTo(puestoCaco);
-                if (comida != null)
-                    estadoActual = EstadosFSM.COMER;
-                else
-                    estadoActual = EstadosFSM.ESPERAR;
-                pillado = false;
+                if (isInPosition(puestoCaco))
+                {
+                    if (comida != null)
+                        estadoActual = EstadosFSM.COMER;
+                    else
+                        estadoActual = EstadosFSM.ESPERAR;
+                    pillado = false;
+                }
                 break;
 
             case EstadosFSM.COMER:

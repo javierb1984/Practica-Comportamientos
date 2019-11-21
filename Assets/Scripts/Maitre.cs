@@ -19,12 +19,17 @@ public class Maitre : Gato
     //El cliente se ha sentado
     private bool clienteSentado;
 
+    //Esperas necesarias para el maitre
+    private float timer;
+    private float waitingTime = 1f;
+
     void Start()
     {
         puestoMaitre = mundo.puestoMaitre;
         transform.position = puestoMaitre;
         clienteSentado = false;
         estadoActual = EstadosFSM.ESPERAR;
+        timer = waitingTime;
     }
 
     void Update()
@@ -37,12 +42,18 @@ public class Maitre : Gato
         switch (estadoActual)
         {
             case EstadosFSM.ESPERAR:
+
                 if (!mundo.colaIsEmpty() && !mundo.mesasIsFull())
                 {
-                    mesaActual = mundo.nextMesa();
-                    clienteActual = mundo.popClienteCola();
-                    clienteActual.concedeMesa(mesaActual);
-                    estadoActual = EstadosFSM.LLEVAR_CLIENTE;
+                    //Espera 2 segundos antes de llevar al cliente a la mesa
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        mesaActual = mundo.nextMesa();
+                        clienteActual = mundo.popClienteCola();
+                        clienteActual.concedeMesa(mesaActual);
+                        estadoActual = EstadosFSM.LLEVAR_CLIENTE;
+                    }
                 }
             break;
 
@@ -50,22 +61,34 @@ public class Maitre : Gato
                 Vector3 position = mundo.mesas[mesaActual].transform.GetChild(0).position;
                 walkTo(position);
 
-                if(isInPosition(position))
+                if (isInPosition(position))
+                {
+                    timer = waitingTime;
                     estadoActual = EstadosFSM.SENTAR;
+                }
             break;
 
             case EstadosFSM.SENTAR:
                 clienteActual.sentar();
-                if(clienteSentado)
-                    estadoActual = EstadosFSM.VOLVER;
+                if (clienteSentado)
+                {
+                    //Espera un poco antes de volver
+                    timer -= Time.deltaTime;
+
+                    if(timer <= 0)
+                        estadoActual = EstadosFSM.VOLVER;
+                }
             break;
 
             case EstadosFSM.VOLVER:
                 clienteSentado = false;
                 walkTo(puestoMaitre);
 
-                if(isInPosition(puestoMaitre))
+                if (isInPosition(puestoMaitre))
+                {
+                    timer = waitingTime;
                     estadoActual = EstadosFSM.ESPERAR;
+                }
             break;
         }
     }
