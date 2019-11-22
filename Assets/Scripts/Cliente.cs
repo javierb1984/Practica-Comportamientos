@@ -120,9 +120,9 @@ public class Cliente : Gato
 
             case EstadosFSM.SENTARSE:
                 Transform rotation = mundo.mesas[mesaActual].transform.parent;
-                rotateTowards(rotation);
+                rotateTowards(rotation.transform.position);
 
-                if (isLookingTowards(rotation))
+                if (isLookingTowards(rotation.transform.position))
                 {
                     sitDown(mundo.mesas[mesaActual].transform.parent);
                     mundo.pushCliente(mesaActual, this);

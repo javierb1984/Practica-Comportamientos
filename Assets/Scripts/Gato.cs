@@ -7,8 +7,8 @@ public class Gato : MonoBehaviour {
 
     public NavMeshAgent agent;
     protected Mundo mundo;
-    private float walkingSpeed = 2f;
-    private float runningSpeed = 4f;
+    private float walkingSpeed = 1.5f;
+    private float runningSpeed = 3f;
     private bool estaSentado = false;
 
     void Awake()
@@ -24,8 +24,10 @@ public class Gato : MonoBehaviour {
 
 	public void walkTo(Vector3 destination){
         agent.speed = walkingSpeed;
+
         //Animación de caminar
         agent.SetDestination(destination);
+        rotateTowards(destination);
     }
 
     public void runTo(Vector3 destination){
@@ -48,21 +50,20 @@ public class Gato : MonoBehaviour {
 
     //Se podría cambiar como unico del cliente que es el unico que se sienta
     protected void sitDown(Transform lookAt){
-        rotateTowards(lookAt);
         //animacion;
         estaSentado = true;
     }
 
-    protected void rotateTowards(Transform target)
+    protected void rotateTowards(Vector3 target)
     {
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = (target - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
 
-    protected bool isLookingTowards(Transform target)
+    protected bool isLookingTowards(Vector3 target)
     {
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = (target - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
 
         float abs = Mathf.Abs(Quaternion.Dot(transform.rotation, lookRotation));
