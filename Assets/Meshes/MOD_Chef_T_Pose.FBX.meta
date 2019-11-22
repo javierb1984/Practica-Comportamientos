@@ -1,0 +1,165 @@
+fileFormatVersion: 2
+guid: 1573bcd10d1d9f44fa79476494551e52
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: b_B_L_Leg_1
+    100002: b_B_L_Leg_2
+    100004: b_B_L_Leg_Ankle
+    100006: b_B_R_leg_1
+    100008: b_B_R_leg_2
+    100010: b_B_R_leg_Ankle
+    100012: b_Chest
+    100014: b_F_L_Leg_1
+    100016: b_F_L_Leg_2
+    100018: b_F_L_Leg_Ankle
+    100020: b_F_L_Leg_Collarbone
+    100022: b_F_R_Leg_1
+    100024: b_F_R_Leg_2
+    100026: b_F_R_Leg_Ankle
+    100028: b_F_R_Leg_Collarbone
+    100030: b_GorroCocinero
+    100032: b_Head
+    100034: b_L_Ear
+    100036: b_Neck
+    100038: b_pajarita
+    100040: b_pelvis
+    100042: b_R_Ear
+    100044: b_root
+    100046: b_Spine_1
+    100048: b_Spine_2
+    100050: CATRig_Tail_1
+    100052: CATRig_Tail_2
+    100054: CATRig_Tail_3
+    100056: Gatete
+    100058: //RootNode
+    100060: pajarita
+    100062: Sombrero chef
+    400000: b_B_L_Leg_1
+    400002: b_B_L_Leg_2
+    400004: b_B_L_Leg_Ankle
+    400006: b_B_R_leg_1
+    400008: b_B_R_leg_2
+    400010: b_B_R_leg_Ankle
+    400012: b_Chest
+    400014: b_F_L_Leg_1
+    400016: b_F_L_Leg_2
+    400018: b_F_L_Leg_Ankle
+    400020: b_F_L_Leg_Collarbone
+    400022: b_F_R_Leg_1
+    400024: b_F_R_Leg_2
+    400026: b_F_R_Leg_Ankle
+    400028: b_F_R_Leg_Collarbone
+    400030: b_GorroCocinero
+    400032: b_Head
+    400034: b_L_Ear
+    400036: b_Neck
+    400038: b_pajarita
+    400040: b_pelvis
+    400042: b_R_Ear
+    400044: b_root
+    400046: b_Spine_1
+    400048: b_Spine_2
+    400050: CATRig_Tail_1
+    400052: CATRig_Tail_2
+    400054: CATRig_Tail_3
+    400056: Gatete
+    400058: //RootNode
+    400060: pajarita
+    400062: Sombrero chef
+    2100000: 07 - Default
+    2100002: No Name
+    4300000: Gatete
+    4300002: Sombrero chef
+    4300004: pajarita
+    9500000: //RootNode
+    13700000: Gatete
+    13700002: pajarita
+    13700004: Sombrero chef
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 1
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: b_root
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 6c7e4ed661f749b47a0abfa358b4318d,
+    type: 3}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
