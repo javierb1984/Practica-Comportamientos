@@ -31,6 +31,7 @@ public class Catmarero : Gato {
         posMesaPedidos = mundo.mesaPedidos.transform.position;
         estadoActual = EstadosFSM1.ESPERAR;
         timer = waitingTime;
+        idle();
 	}
 
 
@@ -137,6 +138,7 @@ public class Catmarero : Gato {
                 if (isInPosition(puestoCamarero))
                 {
                     timer = waitingTime;
+                    idle();
                     estadoActual = EstadosFSM1.ESPERAR;
                 }
             break;

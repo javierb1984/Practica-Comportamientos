@@ -30,6 +30,7 @@ public class Maitre : Gato
         clienteSentado = false;
         estadoActual = EstadosFSM.ESPERAR;
         timer = waitingTime;
+        idle();
     }
 
     void Update()
@@ -87,6 +88,7 @@ public class Maitre : Gato
                 if (isInPosition(puestoMaitre))
                 {
                     timer = waitingTime;
+                    idle();
                     estadoActual = EstadosFSM.ESPERAR;
                 }
             break;

@@ -5,34 +5,38 @@ using UnityEngine.AI;
 
 public class Gato : MonoBehaviour {
 
+
     public NavMeshAgent agent;
     protected Mundo mundo;
     private float walkingSpeed = 1.5f;
     private float runningSpeed = 3f;
     private bool estaSentado = false;
+    private Animator animator;
 
     void Awake()
     {
         mundo = FindObjectOfType<Mundo>();
         agent = transform.GetComponent<NavMeshAgent>();
+        animator = transform.GetComponent<Animator>();
     }
 
     public bool isInPosition(Vector3 position)
     {
-        return Vector3.Distance(transform.position, position) <= 0.8f;
+        return Vector3.Distance(transform.position, position) <= 0.9f;
     }
 
 	public void walkTo(Vector3 destination){
+        agent.isStopped = false;
         agent.speed = walkingSpeed;
-
-        //Animación de caminar
+        animator.SetFloat("Animation", 0);
         agent.SetDestination(destination);
         rotateTowards(destination);
     }
 
     public void runTo(Vector3 destination){
+        agent.isStopped = false;
         agent.speed = runningSpeed;
-        //Animación de correr
+        animator.SetFloat("Animation", 1);
         agent.SetDestination(destination);
 
     }
@@ -46,11 +50,15 @@ public class Gato : MonoBehaviour {
     //Animación inversa a pick
     protected void set(string plato) { }
 
-    protected void idle(){}
+    protected void idle(){
+        agent.isStopped = true;
+        animator.SetFloat("Animation", 3);
+    }
 
     //Se podría cambiar como unico del cliente que es el unico que se sienta
     protected void sitDown(Transform lookAt){
-        //animacion;
+        agent.isStopped = true;
+        animator.SetFloat("Animation", 4);
         estaSentado = true;
     }
 
@@ -73,6 +81,11 @@ public class Gato : MonoBehaviour {
     protected void getUp(){
         //animacion
         estaSentado = false;
+    }
+
+    protected void wait() {
+        agent.isStopped = true;
+        animator.SetFloat("Animation", 2);
     }
 
     protected void eat(/*Item food*/){}

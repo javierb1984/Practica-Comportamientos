@@ -80,6 +80,7 @@ public class Cliente : Gato
 
             case EstadosFSM.EN_COLA:
                 posColaMaitre = mundo.getNextCola();
+                walkTo(posColaMaitre);
 
                 //Si la cola se ha llenado mientras llegaba volvemos a vagar
                 if (mundo.colaIsFull()) {
@@ -88,11 +89,10 @@ public class Cliente : Gato
                 //Si ha llegado a su posición le metemos en la cola
                 else if (isInPosition(posColaMaitre))
                 {
+                    wait();
                     mundo.pushClienteCola(this);
                     estadoActual = EstadosFSM.ESPERAR_MAITRE;
                 }
-
-                walkTo(posColaMaitre);
                 break;
 
             case EstadosFSM.ESPERAR_MAITRE:
