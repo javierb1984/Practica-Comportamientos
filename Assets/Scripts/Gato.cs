@@ -7,8 +7,8 @@ public class Gato : MonoBehaviour {
 
     public NavMeshAgent agent;
     protected Mundo mundo;
-    private float walkingSpeed = 3f;
-    private float runningSpeed = 6f;
+    private float walkingSpeed = 2f;
+    private float runningSpeed = 4f;
     private bool estaSentado = false;
 
     void Awake()
@@ -19,7 +19,7 @@ public class Gato : MonoBehaviour {
 
     public bool isInPosition(Vector3 position)
     {
-        return Vector3.Distance(transform.position, position) <= 1.1f;
+        return Vector3.Distance(transform.position, position) <= 0.8f;
     }
 
 	public void walkTo(Vector3 destination){
@@ -40,10 +40,6 @@ public class Gato : MonoBehaviour {
         Destroy(plato);
     }
 
-    protected bool isAt(Vector3 target)
-    {
-        return Vector3.Distance(transform.position, target) < 0.5f;
-    }
 
     //Animación inversa a pick
     protected void set(string plato) { }
@@ -51,9 +47,26 @@ public class Gato : MonoBehaviour {
     protected void idle(){}
 
     //Se podría cambiar como unico del cliente que es el unico que se sienta
-    protected void sitDown(Vector3 lookAt){
+    protected void sitDown(Transform lookAt){
+        rotateTowards(lookAt);
         //animacion;
         estaSentado = true;
+    }
+
+    protected void rotateTowards(Transform target)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
+    }
+
+    protected bool isLookingTowards(Transform target)
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+
+        float abs = Mathf.Abs(Quaternion.Dot(transform.rotation, lookRotation));
+        return (abs >= 0.9999999f);
     }
 
     protected void getUp(){

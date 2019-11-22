@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cliente : Gato
 {
-    private enum EstadosFSM { VAGAR, EN_COLA, ESPERAR_MAITRE, SEGUIR_MAITRE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER};
+    private enum EstadosFSM { VAGAR, EN_COLA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER};
     private enum VagarFSM { VAGAR, PENSAR};
     private EstadosFSM estadoActual;
     private VagarFSM estadoVagar;
@@ -38,6 +38,7 @@ public class Cliente : Gato
         //Segundos
         this.timer = Random.Range(5f, 20f);
         this.estadoActual = EstadosFSM.VAGAR;
+        this.estadoVagar = VagarFSM.PENSAR;
         this.avisoMaitre = false;
         this.avisoSentarse = false;
         this.decidido = false;
@@ -79,7 +80,6 @@ public class Cliente : Gato
 
             case EstadosFSM.EN_COLA:
                 posColaMaitre = mundo.getNextCola();
-                walkTo(posColaMaitre);
 
                 //Si la cola se ha llenado mientras llegaba volvemos a vagar
                 if (mundo.colaIsFull()) {
@@ -91,6 +91,8 @@ public class Cliente : Gato
                     mundo.pushClienteCola(this);
                     estadoActual = EstadosFSM.ESPERAR_MAITRE;
                 }
+
+                walkTo(posColaMaitre);
                 break;
 
             case EstadosFSM.ESPERAR_MAITRE:
@@ -111,10 +113,21 @@ public class Cliente : Gato
 
                     if (isInPosition(position))
                     {
-                        maitre.Sentado();
-                        mundo.pushCliente(mesaActual, this);
-                        estadoActual = EstadosFSM.DECIDIR_MENU;
+                        estadoActual = EstadosFSM.SENTARSE;
                     }
+                }
+                break;
+
+            case EstadosFSM.SENTARSE:
+                Transform rotation = mundo.mesas[mesaActual].transform.parent;
+                rotateTowards(rotation);
+
+                if (isLookingTowards(rotation))
+                {
+                    sitDown(mundo.mesas[mesaActual].transform.parent);
+                    mundo.pushCliente(mesaActual, this);
+                    maitre.Sentado();
+                    estadoActual = EstadosFSM.DECIDIR_MENU;
                 }
                 break;
 
@@ -176,6 +189,7 @@ public class Cliente : Gato
 
                 estadoVagar = VagarFSM.VAGAR;
                 break;
+
             case VagarFSM.VAGAR:
                 walkTo(posVagar);
                 if (isInPosition(posVagar))

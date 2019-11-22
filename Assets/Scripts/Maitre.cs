@@ -75,7 +75,7 @@ public class Maitre : Gato
                     //Espera un poco antes de volver
                     timer -= Time.deltaTime;
 
-                    if(timer <= 0)
+                    //if(timer <= 0)
                         estadoActual = EstadosFSM.VOLVER;
                 }
             break;

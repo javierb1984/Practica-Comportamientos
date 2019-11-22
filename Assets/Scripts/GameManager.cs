@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         {
             if (countdown <= 0)
             {
-                countdown = Random.Range(5, 20);
+                countdown = Random.Range(1, 10);
                 Instantiate(cliente);
                 numClientes++;
             }

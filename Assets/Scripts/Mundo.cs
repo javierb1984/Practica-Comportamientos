@@ -16,7 +16,7 @@ public class Mundo : MonoBehaviour
     public Vector3 muroComandas;
 
     //Distancia entre los clientes en la cola
-    public float distanciaCola = 1.0f;
+    public float distanciaCola;
 
     //Rango de spawn de Clientes
     public Vector3 minSpawnCliente;
@@ -25,7 +25,7 @@ public class Mundo : MonoBehaviour
     //Private parameters
     private int MAX_COMANDAS = 9;
     private int MAX_PLATOS = 6;
-    private int MAX_COLA = 6;
+    private int MAX_COLA = 3;
 
     //Posibles comidas
     private string [] comidas = {"A","B","C","D","E"};
@@ -102,7 +102,7 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public bool hayPlatos()
     {
-        return platos.Count != 0;
+        return !platos.Count.Equals(0);
     }
 
     /// <summary>
@@ -228,6 +228,10 @@ public class Mundo : MonoBehaviour
         clientesCola.Enqueue(cliente);
     }
 
+    /// <summary>
+    ///Solo para uso del cliente.
+    ///Devuelve la siguiente posición libre en la cola.
+    /// </summary>
     public Vector3 getNextCola()
     {
         //El cliente tendrá que moverse al ((principio de la cola) + n * (número de clientes))
@@ -244,16 +248,22 @@ public class Mundo : MonoBehaviour
         if (colaIsEmpty())
             return null;
         Cliente aux = clientesCola.Dequeue();
+        avanzaCola();
+        return aux;
+    }
 
+    /// <summary>
+    ///Para hacer que la cola avance después que que salga un cliente.
+    /// </summary>
+    public void avanzaCola()
+    {
         //Todos los clientes tendrán que moverse n hacia delante
-        foreach(Cliente cliente in clientesCola.ToArray())
+        foreach (Cliente cliente in clientesCola.ToArray())
         {
             Vector3 v = cliente.transform.position;
-            v.z += distanciaCola;
+            v.z -= distanciaCola;
             cliente.walkTo(v);
         }
-
-        return aux;
     }
 
     /// <summary>
@@ -261,7 +271,7 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public bool colaIsEmpty()
     {
-        return (clientesCola.Count == 0);
+        return (clientesCola.Count.Equals(0));
     }
 
     /// <summary>
@@ -269,7 +279,7 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public bool colaIsFull()
     {
-        return (clientesCola.Count == MAX_COLA);
+        return (clientesCola.Count.Equals(MAX_COLA));
     }
 
     public void setPlato(string nombre, int mesa, GameObject plato)
