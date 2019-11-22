@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2433173061449614735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4753570793507769949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d15af61bb3bb4a47b1114dfed8712e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 0}
 --- !u!95 &370401207657057162
 Animator:
   serializedVersion: 3
@@ -41,7 +28,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4753570793507769949}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
@@ -54,6 +41,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2433173061449614735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753570793507769949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d15af61bb3bb4a47b1114dfed8712e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 0}
 --- !u!1001 &4753570793507670145
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100060, guid: 626f1b0b5fcb3b24780ea98263fa253f, type: 3}
       propertyPath: m_Name
-      value: MOD_Catmarero_T_Pose
+      value: Catmarero
       objectReference: {fileID: 0}
     - target: {fileID: 400060, guid: 626f1b0b5fcb3b24780ea98263fa253f, type: 3}
       propertyPath: m_LocalPosition.x

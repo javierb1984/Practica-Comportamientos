@@ -86,7 +86,7 @@ public class Catmarero : Gato {
                 mesaActual = mundo.clientePorAtender();
 
                 clienteActual = mundo.getClienteEnMesa(mesaActual);
-                posMesaCliente = mundo.mesas[mesaActual].transform.GetChild(0).position;
+                posMesaCliente = mundo.mesas[mesaActual].transform.parent.parent.position;
                 walkTo(posMesaCliente);
 
                 if (isInPosition(posMesaCliente))

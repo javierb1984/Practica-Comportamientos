@@ -59,7 +59,7 @@ public class Maitre : Gato
             break;
 
             case EstadosFSM.LLEVAR_CLIENTE:
-                Vector3 position = mundo.mesas[mesaActual].transform.GetChild(0).position;
+                Vector3 position = mundo.mesas[mesaActual].transform.parent.parent.position;
                 walkTo(position);
 
                 if (isInPosition(position))

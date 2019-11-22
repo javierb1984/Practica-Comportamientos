@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 7568624030178955545}
   - component: {fileID: 5257731805100443207}
   m_Layer: 0
-  m_Name: MOD_Cliente_T_Pose Variant
+  m_Name: Cliente
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,7 +694,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6982635880297162155}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
