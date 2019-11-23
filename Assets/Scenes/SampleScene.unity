@@ -1152,7 +1152,7 @@ MonoBehaviour:
   puestoCaco: {x: 0, y: 0, z: 0}
   puertaTrasera: {x: 0, y: 0, z: 0}
   muroComandas: {x: -2.5, y: 1, z: -10.5}
-  distanciaCola: 1
+  distanciaCola: 1.2
   minSpawnCliente: {x: -9, y: 0.6, z: 3}
   maxSpawnCliente: {x: -1, y: 0.6, z: 9}
 --- !u!114 &881463995
