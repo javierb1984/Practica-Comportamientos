@@ -12,7 +12,7 @@ public class Gato : MonoBehaviour {
     private float walkingSpeed = 1f;
     private float runningSpeed = 2f;
     private bool estaSentado = false;
-    private Animator animator;
+    protected Animator animator;
 
     void Awake()
     {
@@ -128,11 +128,11 @@ public class Gato : MonoBehaviour {
         animator.Play("Play");
     }
 
-    protected void angry(Vector3 lookAt){
+    protected void angry(){
         animator.Play("Angry");
     }
 
-    protected void shamed(Vector3 lookAt){
+    protected void shamed(){
         animator.Play("Shamed");
     }
 

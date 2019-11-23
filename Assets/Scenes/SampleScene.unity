@@ -1365,7 +1365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maitre: {fileID: 8920778956080058127, guid: dcce8754c230433489b90c28ae71b995, type: 3}
   cliente: {fileID: 6982635880297162155, guid: a1e62926adb72604abf5351b40695263, type: 3}
-  catmarero: {fileID: 4753570793507769949, guid: d614caa6859163d4c82fdd7333ae63d2,
+  catmarero: {fileID: 6062990737801610730, guid: 330d840cfecc74d4281cbf20b8205814,
     type: 3}
   catco: {fileID: 4398524650923038457, guid: 7353152fc272ad342b0823996e5437c6, type: 3}
   encargado: {fileID: 5485332317982944666, guid: 41a573dfca3120348bd18f408002fb6b,

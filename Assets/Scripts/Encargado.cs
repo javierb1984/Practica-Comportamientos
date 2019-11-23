@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Encargado : Gato
 {
-    private enum EstadosFSM {  PATRULLAR, SIGUIENTE_PUNTO, IR_CAMARERO, BRONCA}
+    private enum EstadosFSM {  PATRULLAR, SIGUIENTE_PUNTO, IR_CAMARERO, BRONCA, BRONCA_EN_CURSO}
     private EstadosFSM estadoActual;
 
     private Transform [] pathNodes;
     private Transform currentNode;
     private int nodeNumber;
+    private Catmarero catmarero;
+
+    private float timer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +25,6 @@ public class Encargado : Gato
             pathNodes[i] = path.transform.GetChild(i);
         }
         nodeNumber = 0;
-
         estadoActual = EstadosFSM.SIGUIENTE_PUNTO;
     }
 
@@ -58,20 +60,44 @@ public class Encargado : Gato
                 break;
 
             case EstadosFSM.IR_CAMARERO:
-                ///if (isInPosition(camarero))
-                ///{
-                ///angry();
-                ///camarero.bronca();
-                ///estadoActual = EstadosFSM.BRONCA;
-                ///}
+                walkTo(catmarero.transform.position - transform.forward);
+                catmarero.lookAtEncargado(gameObject);
+                estadoActual = EstadosFSM.BRONCA;
                 break;
 
             case EstadosFSM.BRONCA:
-                ///if (!estaAngry())
-                ///{
-                ///estadoActual = EstadosFSM.PATRULLAR
+                rotateTowards(catmarero.transform.position);
+                if (isInPosition() && isLookingTowards(catmarero.transform.position))
+                {
+                    angry();
+                    timer = 1.6f;
+                    estadoActual = EstadosFSM.BRONCA_EN_CURSO;
+                }
+                break;
+
+            case EstadosFSM.BRONCA_EN_CURSO:
+                timer -= Time.deltaTime;
+                Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Angry"));
+                if(timer <= 0)
+                {
+                    catmarero.volverAlTrabajo();
+                    estadoActual = EstadosFSM.SIGUIENTE_PUNTO;
+                }
                 break;
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Catmarero"))
+        {
+            catmarero = other.transform.GetComponentInParent<Catmarero>();
+            if (catmarero.isDistraido())
+            {
+                estadoActual = EstadosFSM.IR_CAMARERO;
+                walkTo(catmarero.transform.position - transform.forward);
+            }
+
+        }
+    }
 }
