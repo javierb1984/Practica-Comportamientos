@@ -44,7 +44,7 @@ public class Cocinero : Gato
                 if (mundo.hayComandas())
                 {
                     walkTo(mundo.muroComandas);
-                    if (isInPosition(mundo.muroComandas))
+                    if (isInPosition())
                     {
                         platoActual = mundo.takeComanda();
                         mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato);
@@ -81,8 +81,8 @@ public class Cocinero : Gato
                 //If con percepción del ladron en el camino
                 if (true)
                 {
-                    rotateTowards(referenciaCatco.transform);
-                    if (isLookingTowards(referenciaCatco.transform))
+                    rotateTowards(referenciaCatco.transform.position);
+                    if (isLookingTowards(referenciaCatco.transform.position))
                     {
                         //angry();
                         referenciaCatco.Pillado();
@@ -100,7 +100,7 @@ public class Cocinero : Gato
 
             case EstadosFSM.LLEVAR_COMIDA:
                 
-                if (isInPosition(posMesaPedidos))
+                if (isInPosition())
                 {
                     //dejar el plato
                     mundo.pushPlato(platoActual);
@@ -120,7 +120,7 @@ public class Cocinero : Gato
         {
             case CocinarFSM.COCINAR:
 
-                if (isInPosition(mundo.posCocina))
+                if (isInPosition())
                     cook();
 
                 if (timer <= 0)
@@ -144,7 +144,7 @@ public class Cocinero : Gato
 
             case CocinarFSM.VAGAR:
                 walkTo(posVagar);
-                if (isInPosition(posVagar))
+                if (isInPosition())
                     estadoCocinar = CocinarFSM.PENSAR;
                 break;
         }
