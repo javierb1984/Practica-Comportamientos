@@ -1277,9 +1277,11 @@ MonoBehaviour:
   puestoCamareros: {x: -2.5, y: 1, z: -8}
   puestoMaitre: {x: -6.577, y: 1, z: -4}
   principioCola: {x: -7, y: 0, z: -3.754}
-  puestoCaco: {x: 0, y: 0, z: 0}
-  puertaTrasera: {x: 0, y: 0, z: 0}
+  puestoCaco: {x: -5.5, y: 0.18, z: -11.5}
+  puertaTrasera: {x: -3.5, y: 0.7, z: -10}
   muroComandas: {x: -2.5, y: 1, z: -10.5}
+  posCocina: {x: -1.9, y: 0.776, z: -12}
+  plato: {fileID: 1950841410681350952, guid: 1a402ea24f5af4641b5f19f3e5925a60, type: 3}
   distanciaCola: 1.2
   minSpawnCliente: {x: -9, y: 0.6, z: 3}
   maxSpawnCliente: {x: -1, y: 0.6, z: 9}
@@ -1299,6 +1301,7 @@ MonoBehaviour:
   cliente: {fileID: 6982635880297162155, guid: a1e62926adb72604abf5351b40695263, type: 3}
   catmarero: {fileID: 4753570793507769949, guid: d614caa6859163d4c82fdd7333ae63d2,
     type: 3}
+  catco: {fileID: 4398524650923038457, guid: 7353152fc272ad342b0823996e5437c6, type: 3}
 --- !u!1 &910317239 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 02f800c4942887a49bb6dcd8c9274e64,

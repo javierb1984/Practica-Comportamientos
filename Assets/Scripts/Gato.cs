@@ -56,12 +56,16 @@ public class Gato : MonoBehaviour {
 
     protected void pick(GameObject plato){
         //Animación de coger
-        Destroy(plato);
+        animator.SetFloat("Animation", 9);
+        Destroy(plato, 0);
     }
 
 
     //Animación inversa a pick
-    protected void set(string plato) { }
+    protected void set(string plato) {
+        animator.SetFloat("Animation", 9);
+        Instantiate(mundo.plato);
+    }
 
     protected void idle(){
         agent.isStopped = true;
@@ -101,7 +105,11 @@ public class Gato : MonoBehaviour {
         animator.SetFloat("Animation", 2);
     }
 
-    protected void eat(/*Item food*/){}
+    protected void eat()
+    {
+        agent.isStopped = true;
+        animator.SetFloat("Animation", 6);
+    }
 
     protected void cook(/*Item food*/){}
 
