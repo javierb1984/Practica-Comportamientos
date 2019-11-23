@@ -23,7 +23,7 @@ Animator:
   m_GameObject: {fileID: 4753570793507769949}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 91c2c6bee03e0fd4bb76ff84b387746c, type: 2}
+  m_Controller: {fileID: 9100000, guid: e5cdec1fc1ce1e8458df0f2b835607ae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -123,10 +123,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 626f1b0b5fcb3b24780ea98263fa253f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 909d8fb15740c624f846f6a76d1409ee, type: 2}
     - target: {fileID: 13700002, guid: 626f1b0b5fcb3b24780ea98263fa253f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9aad458d04904a045a9f8fa6b0889217, type: 2}
+    - target: {fileID: 13700004, guid: 626f1b0b5fcb3b24780ea98263fa253f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5207d39b8f458a94586aa2827b6bf8c8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 626f1b0b5fcb3b24780ea98263fa253f, type: 3}
 --- !u!1 &4753570793507769949 stripped
