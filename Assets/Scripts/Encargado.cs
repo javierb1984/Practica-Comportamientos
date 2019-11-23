@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class Encargado : Gato
 {
-    private enum EstadosFSM {  PATRULLAR, IR_CAMARERO, BRONCA}
+    private enum EstadosFSM {  PATRULLAR, SIGUIENTE_PUNTO, IR_CAMARERO, BRONCA}
     private EstadosFSM estadoActual;
+
+    private Transform [] pathNodes;
+    private Transform currentNode;
+    private int nodeNumber;
 
     // Start is called before the first frame update
     void Start()
     {
-        estadoActual = EstadosFSM.PATRULLAR;
+        GameObject path = mundo.pathEncargado;
+        pathNodes = new Transform[path.transform.childCount];
+
+        for(int i = 0; i < path.transform.childCount; i++)
+        {
+            pathNodes[i] = path.transform.GetChild(i);
+        }
+        nodeNumber = 0;
+
+        estadoActual = EstadosFSM.SIGUIENTE_PUNTO;
     }
 
     // Update is called once per frame
@@ -23,8 +36,19 @@ public class Encargado : Gato
     {
         switch (estadoActual)
         {
+            case EstadosFSM.SIGUIENTE_PUNTO:
+                currentNode = pathNodes[nodeNumber];
+                nodeNumber = (nodeNumber + 1) % pathNodes.Length;
+                walkTo(currentNode.position);
+                estadoActual = EstadosFSM.PATRULLAR;
+                break;
+
             case EstadosFSM.PATRULLAR:
-                ///caminar en vueltas por el restaurante
+                if (isInPosition())
+                {
+                    estadoActual = EstadosFSM.SIGUIENTE_PUNTO;
+                }
+
                 ///if (collider de camarero && estaDistraido)
                 ///{
                 ///walkTo(camarero);

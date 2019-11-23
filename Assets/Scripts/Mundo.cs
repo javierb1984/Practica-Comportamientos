@@ -19,6 +19,9 @@ public class Mundo : MonoBehaviour
     public Vector3 muroComandas;
     public Vector3 posCocina;
 
+    //Camino del encargado
+    public GameObject pathEncargado;
+
     //Platos
     public GameObject plato;
 

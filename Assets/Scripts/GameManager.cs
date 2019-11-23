@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject cliente;
     public GameObject catmarero;
     public GameObject catco;
+    public GameObject encargado;
 
 
     private float countdown;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
         Instantiate(catmarero);
         Instantiate(cliente);
         Instantiate(catco);
+        Instantiate(encargado);
 
         //Provisional
         /*mundo = GetComponent<Mundo>();
