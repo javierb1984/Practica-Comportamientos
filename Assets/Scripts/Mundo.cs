@@ -15,6 +15,7 @@ public class Mundo : MonoBehaviour
     public Vector3 puestoCaco;
     public Vector3 puertaTrasera;
     public Vector3 muroComandas;
+    public Vector3 posCocina;
 
     //Distancia entre los clientes en la cola
     public float distanciaCola;
@@ -285,6 +286,7 @@ public class Mundo : MonoBehaviour
 
     public void setPlato(string nombre, int mesa, GameObject plato)
     {
+        //Falta crear el plato en el mundo
         platoCocinero = new Plato(mesa, nombre, plato);
     }
 
