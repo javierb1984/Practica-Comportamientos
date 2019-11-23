@@ -6,6 +6,8 @@ public class Catmarero : Gato {
 
     private enum EstadosFSM1 { ESPERAR, ENTRAR_COCINA, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, MISMA_MESA, CONSULTAR_CLIENTE, TOMAR_NOTA, LLEVAR_COMANDA, VOLVER }
     private EstadosFSM1 estadoActual;
+    private enum EstadosDistraerse {TRABAJAR, IR_JUGUETE, DISTRAERSE}
+    private EstadosDistraerse estadoDistraerse;
     private string pedidoActual = null;
 
     //Número de mesa del cliente actual
@@ -22,22 +24,67 @@ public class Catmarero : Gato {
     //Esperas necesarias para el catmarero
     private float timer;
     private float waitingTime = 1.5f;
+    private float timerDistraerse;
+
+    //True si el juguete entra en su collider
+    private bool veJuguete;
+    public bool avisoEncargado;
+    private GameObject juguete;
 
     //Inicialización de variables de mundo
     void Start () {
         puestoCamarero = mundo.puestoCamareros;
         muroComandas = mundo.muroComandas;
+        juguete = mundo.juguete;
         transform.position = puestoCamarero;
         posMesaPedidos = mundo.mesaPedidos.transform.position;
         estadoActual = EstadosFSM1.ESPERAR;
+        estadoDistraerse = EstadosDistraerse.TRABAJAR;
+        veJuguete = false;
+        avisoEncargado = false;
         timer = waitingTime;
+        timerDistraerse = 0;
         idle();
 	}
 
 
 	void Update () {
-        FSM();	
+        DistraerseFSM();
 	}
+
+    void DistraerseFSM()
+    {
+        switch (estadoDistraerse)
+        {
+            case EstadosDistraerse.TRABAJAR:
+                FSM();
+                timerDistraerse -= Time.deltaTime;
+                if (veJuguete && timerDistraerse <= 0)
+                {
+                    timerDistraerse = 30;
+                    veJuguete = false;
+
+                    walkTo(juguete.transform.GetChild(0).position);
+                    estadoDistraerse = EstadosDistraerse.IR_JUGUETE;
+                }
+                break;
+            case EstadosDistraerse.IR_JUGUETE:
+                if (isInPosition())
+                {
+                    play();
+                    estadoDistraerse = EstadosDistraerse.DISTRAERSE;
+                }
+                break;
+            case EstadosDistraerse.DISTRAERSE:
+                if (avisoEncargado)
+                {
+                    avisoEncargado = false;
+                    estadoDistraerse = EstadosDistraerse.TRABAJAR;
+                }
+                break;
+
+        }
+    }
 
     void FSM()
     {
@@ -146,6 +193,19 @@ public class Catmarero : Gato {
                     estadoActual = EstadosFSM1.ESPERAR;
                 }
             break;
+        }
+    }
+
+    public void encargado()
+    {
+        avisoEncargado = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == ("Juguete"))
+        {
+            veJuguete = true;
         }
     }
 }

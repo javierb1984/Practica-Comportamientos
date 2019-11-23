@@ -105,7 +105,10 @@ public class Gato : MonoBehaviour {
 
     protected void cook(/*Item food*/){}
 
-    protected void play(/*Item item*/){}
+    protected void play(){
+        agent.isStopped = true;
+        animator.SetFloat("Animation", 2);
+    }
 
     protected void angry(Vector3 lookAt){}
 

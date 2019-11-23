@@ -9,6 +9,7 @@ public class Mundo : MonoBehaviour
     public List<GameObject> mesas;
     public GameObject mesaPedidos;
     public GameObject mesaMaitre;
+    public GameObject juguete;
     public Vector3 puestoCamareros;
     public Vector3 puestoMaitre;
     public Vector3 principioCola;
