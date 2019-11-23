@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Gato : MonoBehaviour {
 
+    private const float TRANSITION_DURATION = 0.5f;
 
     public NavMeshAgent agent;
     protected Mundo mundo;
@@ -35,43 +36,57 @@ public class Gato : MonoBehaviour {
 	public void walkTo(Vector3 destination){
         agent.isStopped = false;
         agent.speed = walkingSpeed;
-        animator.SetFloat("Animation", 0);
+        //animator.SetFloat("Animation", 0);
+        animator.Play("Walking");
+        /*if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+        {
+            animator.CrossFadeInFixedTime("Walking", TRANSITION_DURATION, 0);
+        }*/
+       
         agent.destination = destination;
         //rotateTowards(destination);
+
+        Debug.Log("AAAAAAAA");
+        
     }
 
-    public void setAxis()
+    /*public void setAxis()
     {
         animator.SetFloat("Horizontal", transform.right.x);
         animator.SetFloat("Vertical", transform.right.z);
-    }
+    }*/
 
     public void runTo(Vector3 destination){
         agent.isStopped = false;
         agent.speed = runningSpeed;
-        animator.SetFloat("Animation", 1);
+        //animator.SetFloat("Animation", 1);
+        animator.Play("Running");
         agent.SetDestination(destination);
 
     }
 
     protected void pick(GameObject plato){
         //Animación de coger
+        animator.Play("Take");
         Destroy(plato);
     }
 
 
     //Animación inversa a pick
-    protected void set(string plato) { }
+    protected void set(string plato) {
+        animator.Play("Leave");
+    }
 
     protected void idle(){
         agent.isStopped = true;
-        animator.SetFloat("Animation", 3);
+        animator.Play("Idle");
     }
 
     //Se podría cambiar como unico del cliente que es el unico que se sienta
     protected void sitDown(Transform lookAt){
         agent.isStopped = true;
-        animator.SetFloat("Animation", 4);
+        //animator.SetFloat("Animation", 4);
+        animator.Play("SitDown");
         estaSentado = true;
     }
 
@@ -94,28 +109,39 @@ public class Gato : MonoBehaviour {
     protected void getUp(){
         //animacion
         estaSentado = false;
+        animator.Play("GetUp");
     }
 
     protected void wait() {
         agent.isStopped = true;
-        animator.SetFloat("Animation", 2);
+        //animator.SetFloat("Animation", 2);
+        animator.Play("Waiting");
     }
 
-    protected void eat(/*Item food*/){}
+    protected void eat(/*Item food*/){
+        animator.Play("Eating");
+    }
 
-    protected void cook(/*Item food*/){}
+    protected void cook(/*Item food*/){
+        animator.Play("Cooking");
+    }
 
     protected void play(){
         agent.isStopped = true;
-        animator.SetFloat("Animation", 2);
+        //animator.SetFloat("Animation", 2);
+        animator.Play("Play");
     }
 
-    protected void angry(Vector3 lookAt){}
+    protected void angry(Vector3 lookAt){
+        animator.Play("Angry");
+    }
 
-    protected void shamed(Vector3 lookAt){}
+    protected void shamed(Vector3 lookAt){
+        animator.Play("Shamed");
+    }
 
-    void FixedUpdate()
+    /*void FixedUpdate()
     {
         setAxis();
-    }
+    }*/
 }
