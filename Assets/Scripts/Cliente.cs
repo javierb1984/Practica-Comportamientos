@@ -26,6 +26,7 @@ public class Cliente : Gato
 
     //Referencia a posicion en la cola
     private Vector3 posColaMaitre;
+    private bool inPosCola;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class Cliente : Gato
         this.timer = Random.Range(5f, 20f);
         this.estadoActual = EstadosFSM.VAGAR;
         this.estadoVagar = VagarFSM.PENSAR;
+        this.inPosCola = false;
         this.avisoMaitre = false;
         this.avisoSentarse = false;
         this.decidido = false;
@@ -62,6 +64,8 @@ public class Cliente : Gato
                 if (timer <= 0)
                 {                    
                     if (!mundo.colaIsFull()) {
+
+
                         estadoActual = EstadosFSM.EN_COLA;
                     }
                     else
@@ -82,32 +86,38 @@ public class Cliente : Gato
                 posColaMaitre = mundo.getNextCola();
                 walkTo(posColaMaitre);
 
-                //Si la cola se ha llenado mientras llegaba volvemos a vagar
-                if (mundo.colaIsFull()) {
+                if (mundo.colaIsFull())
+                {
                     estadoActual = EstadosFSM.VAGAR;
                 }
-                //Si ha llegado a su posición le metemos en la cola
-                else if (isInPosition())
+                else if (isInPosition() && distance(posColaMaitre))
                 {
                     wait();
                     mundo.pushClienteCola(this);
                     estadoActual = EstadosFSM.ESPERAR_MAITRE;
-                }
-                break;
 
-            case EstadosFSM.AVANZA:
-                walkTo(posColaMaitre);
-                if (isInPosition())
-                {
-                    wait();
-                    estadoActual = EstadosFSM.ESPERAR_MAITRE;
                 }
                 break;
 
             case EstadosFSM.ESPERAR_MAITRE:
+
                 if (avisoMaitre)
                 {
                     estadoActual = EstadosFSM.SEGUIR_MAITRE;
+                }
+                else if (inPosCola)
+                {
+                    walkTo(transform.position - new Vector3(0, 0, mundo.distanciaCola));
+                    inPosCola = false;
+                    estadoActual = EstadosFSM.AVANZA;
+                }
+                break;
+
+            case EstadosFSM.AVANZA:
+                if (isInPosition())
+                {
+                    wait();
+                    estadoActual = EstadosFSM.ESPERAR_MAITRE;
                 }
                 break;
 
@@ -234,7 +244,6 @@ public class Cliente : Gato
 
     public void avanzaCola(Vector3 position)
     {
-        posColaMaitre = position;
-        estadoActual = EstadosFSM.AVANZA;
+        inPosCola = true;
     }
 }

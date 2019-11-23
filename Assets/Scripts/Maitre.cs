@@ -68,8 +68,6 @@ public class Maitre : Gato
             break;
 
             case EstadosFSM.LLEVAR_CLIENTE:
-
-
                 if (isInPosition())
                 {
                     wait();

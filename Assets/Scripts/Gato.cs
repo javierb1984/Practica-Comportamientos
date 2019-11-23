@@ -22,8 +22,14 @@ public class Gato : MonoBehaviour {
 
     public bool isInPosition()
     {
-        //return Vector3.Distance(transform.position, position) <= 0.8;
+
         return (agent.remainingDistance < 0.2f);
+    }
+
+    //Double-check
+    public bool distance(Vector3 target)
+    {
+        return Vector3.Distance(transform.position, target) <= 0.8;
     }
 
 	public void walkTo(Vector3 destination){

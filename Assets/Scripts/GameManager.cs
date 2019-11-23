@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        countdown = Random.Range(1, 10);
+        countdown = Random.Range(10, 20);
         numClientes = 1;
         Instantiate(maitre);
         Instantiate(catmarero);
@@ -22,11 +22,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (numClientes < 15)
+        if (numClientes < 11)
         {
             if (countdown <= 0)
             {
-                countdown = Random.Range(1, 10);
+                countdown = Random.Range(10, 20);
                 Instantiate(cliente);
                 numClientes++;
             }

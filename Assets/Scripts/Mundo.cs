@@ -19,6 +19,9 @@ public class Mundo : MonoBehaviour
     //Distancia entre los clientes en la cola
     public float distanciaCola;
 
+    //Mutex
+    public object Lock;
+
     //Rango de spawn de Clientes
     public Vector3 minSpawnCliente;
     public Vector3 maxSpawnCliente;
@@ -66,6 +69,8 @@ public class Mundo : MonoBehaviour
         {
             mesasOcupadas[i] = false;
         }
+
+        Lock = new object();
     }
 
     //Métodos para acceder a comandas
