@@ -8,6 +8,7 @@ public class Mundo : MonoBehaviour
     //Public parameters
     public List<GameObject> mesas;
     public GameObject mesaPedidos;
+    public GameObject mesaMaitre;
     public Vector3 puestoCamareros;
     public Vector3 puestoMaitre;
     public Vector3 principioCola;
@@ -262,7 +263,7 @@ public class Mundo : MonoBehaviour
         {
             Vector3 v = cliente.transform.position;
             v.z -= distanciaCola;
-            cliente.walkTo(v);
+            cliente.avanzaCola(v);
         }
     }
 

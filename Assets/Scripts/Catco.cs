@@ -21,6 +21,7 @@ public class Catco : Gato
     }
 
     // Update is called once per frame
+
     void Update()
     {
         FSM();
@@ -38,7 +39,7 @@ public class Catco : Gato
             case EstadosFSM.ENTRAR:
                 walkTo(puertaTrasera);
 
-                if (isInPosition(puertaTrasera))
+                if (isInPosition())
                 {
                     //If con percepción del cocinero en el camino
                     Plato plato = mundo.pollPlato();
@@ -57,7 +58,7 @@ public class Catco : Gato
                     Plato plato = mundo.pollPlato();
                     walkTo(posPlato);
 
-                    if(isInPosition(posPlato))
+                    if(isInPosition())
                         estadoActual = EstadosFSM.COGER_PLATO;
                 }
                 break;
@@ -70,7 +71,7 @@ public class Catco : Gato
 
             case EstadosFSM.VOLVER:
                 runTo(puestoCaco);
-                if (isInPosition(puestoCaco))
+                if (isInPosition())
                 {
                     if (comida != null)
                         estadoActual = EstadosFSM.COMER;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cliente : Gato
 {
-    private enum EstadosFSM { VAGAR, EN_COLA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER};
+    private enum EstadosFSM { VAGAR, EN_COLA, AVANZA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER};
     private enum VagarFSM { VAGAR, PENSAR};
     private EstadosFSM estadoActual;
     private VagarFSM estadoVagar;
@@ -87,7 +87,7 @@ public class Cliente : Gato
                     estadoActual = EstadosFSM.VAGAR;
                 }
                 //Si ha llegado a su posición le metemos en la cola
-                else if (isInPosition(posColaMaitre))
+                else if (isInPosition())
                 {
                     wait();
                     mundo.pushClienteCola(this);
@@ -95,8 +95,16 @@ public class Cliente : Gato
                 }
                 break;
 
-            case EstadosFSM.ESPERAR_MAITRE:
+            case EstadosFSM.AVANZA:
+                walkTo(posColaMaitre);
+                if (isInPosition())
+                {
+                    wait();
+                    estadoActual = EstadosFSM.ESPERAR_MAITRE;
+                }
+                break;
 
+            case EstadosFSM.ESPERAR_MAITRE:
                 if (avisoMaitre)
                 {
                     estadoActual = EstadosFSM.SEGUIR_MAITRE;
@@ -111,7 +119,7 @@ public class Cliente : Gato
                     Vector3 position = mundo.mesas[mesaActual].transform.position;
                     walkTo(position);                    
 
-                    if (isInPosition(position))
+                    if (isInPosition())
                     {
                         estadoActual = EstadosFSM.SENTARSE;
                     }
@@ -186,13 +194,12 @@ public class Cliente : Gato
         {
             case VagarFSM.PENSAR:
                 posVagar = new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
-
+                walkTo(posVagar);
                 estadoVagar = VagarFSM.VAGAR;
                 break;
 
             case VagarFSM.VAGAR:
-                walkTo(posVagar);
-                if (isInPosition(posVagar))
+                if (isInPosition())
                     estadoVagar = VagarFSM.PENSAR;
                 break;
         }
@@ -223,5 +230,11 @@ public class Cliente : Gato
     public bool estaDecidido()
     {
         return decidido;
+    }
+
+    public void avanzaCola(Vector3 position)
+    {
+        posColaMaitre = position;
+        estadoActual = EstadosFSM.AVANZA;
     }
 }

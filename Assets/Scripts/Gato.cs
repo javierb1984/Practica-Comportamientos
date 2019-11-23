@@ -8,8 +8,8 @@ public class Gato : MonoBehaviour {
 
     public NavMeshAgent agent;
     protected Mundo mundo;
-    private float walkingSpeed = 1.5f;
-    private float runningSpeed = 3f;
+    private float walkingSpeed = 1f;
+    private float runningSpeed = 2f;
     private bool estaSentado = false;
     private Animator animator;
 
@@ -20,17 +20,24 @@ public class Gato : MonoBehaviour {
         animator = transform.GetComponent<Animator>();
     }
 
-    public bool isInPosition(Vector3 position)
+    public bool isInPosition()
     {
-        return Vector3.Distance(transform.position, position) <= 0.9f;
+        //return Vector3.Distance(transform.position, position) <= 0.8;
+        return (agent.remainingDistance < 0.2f);
     }
 
 	public void walkTo(Vector3 destination){
         agent.isStopped = false;
         agent.speed = walkingSpeed;
         animator.SetFloat("Animation", 0);
-        agent.SetDestination(destination);
-        rotateTowards(destination);
+        agent.destination = destination;
+        //rotateTowards(destination);
+    }
+
+    public void setAxis()
+    {
+        animator.SetFloat("Horizontal", transform.right.x);
+        animator.SetFloat("Vertical", transform.right.z);
     }
 
     public void runTo(Vector3 destination){
@@ -66,7 +73,7 @@ public class Gato : MonoBehaviour {
     {
         Vector3 direction = (target - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 4f);
     }
 
     protected bool isLookingTowards(Vector3 target)
@@ -98,4 +105,8 @@ public class Gato : MonoBehaviour {
 
     protected void shamed(Vector3 lookAt){}
 
+    void FixedUpdate()
+    {
+        setAxis();
+    }
 }
