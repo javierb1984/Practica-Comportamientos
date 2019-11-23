@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1276,13 +1276,18 @@ MonoBehaviour:
   juguete: {fileID: 1439663875}
   puestoCamareros: {x: -2.5, y: 1, z: -8}
   puestoMaitre: {x: -6.577, y: 1, z: -4}
+  puestoCocinero: {x: -3, y: 1, z: -6}
   principioCola: {x: -7, y: 0, z: -3.754}
   puestoCaco: {x: 0, y: 0, z: 0}
   puertaTrasera: {x: 0, y: 0, z: 0}
   muroComandas: {x: -2.5, y: 1, z: -10.5}
+  posCocina: {x: 0, y: 0, z: 0}
+  posDestroy: {x: -6, y: 1, z: -5}
   distanciaCola: 1.2
   minSpawnCliente: {x: -9, y: 0.6, z: 3}
   maxSpawnCliente: {x: -1, y: 0.6, z: 9}
+  minCocinero: {x: 0, y: 0, z: 0}
+  maxCocinero: {x: 0, y: 0, z: 0}
 --- !u!114 &881463995
 MonoBehaviour:
   m_ObjectHideFlags: 0

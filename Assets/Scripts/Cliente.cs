@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cliente : Gato
 {
-    private enum EstadosFSM { VAGAR, EN_COLA, AVANZA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER};
+    private enum EstadosFSM { VAGAR, EN_COLA, AVANZA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER, SALIR};
     private enum VagarFSM { VAGAR, PENSAR};
     private EstadosFSM estadoActual;
     private VagarFSM estadoVagar;
@@ -157,41 +157,40 @@ public class Cliente : Gato
                     decidido = true;
                     timer -= Time.deltaTime;
                 }
-                ///Se puede probar esto o modificar el estado desde el camarero
-                ///revisar/hablarlo en clase
+
                 if (atendido)
                 {
-                    timer = Random.Range(5, 20);//reutilizar timer o usar uno nuevo 
+                    
+                    timer = Random.Range(5f, 20f);
                     estadoActual = EstadosFSM.ESPERAR_PEDIDO;
                 }
 
                 break;
             case EstadosFSM.ESPERAR_PEDIDO:
-                timer--;
-                if(timer == 0)
-                {
-                    //this.angry()
-                    //this.walkTo() fuera del restaurante
-                    //
-                    timer = 5000;//reutilizar timer o usar uno nuevo 
-                    estadoActual = EstadosFSM.VAGAR;
-                }
+
                 if (servido)
                 {
-                    this.eat();
-                    timer = Random.Range(5000, 10000);//reutilizar timer o usar uno nuevo 
+                    eat();
                     estadoActual = EstadosFSM.COMER;
                 }
                 break;
             case EstadosFSM.COMER:
-                timer--;
-                if(timer == 0)
+                timer -= Time.deltaTime;
+                if(timer <= 0)
                 {
-                    //this.walkTo() fuera del restaurante
-                    //
-                    timer = 5000;//reutilizar timer o usar uno nuevo 
-                    estadoActual = EstadosFSM.VAGAR;
+                    walkTo(mundo.posDestroy);
+
+                    estadoActual = EstadosFSM.SALIR;
                 }
+                break;
+
+            case EstadosFSM.SALIR:
+                if (isInPosition())
+                {
+                    Destroy(gameObject);
+                    gameManager.borrarCliente();
+                }
+                    
                 break;
         }
 

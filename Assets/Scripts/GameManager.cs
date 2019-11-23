@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public GameObject maitre;
     public GameObject cliente;
     public GameObject catmarero;
+    public GameObject cocinero;
 
     private float countdown;
     private int numClientes;
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
         Instantiate(maitre);
         Instantiate(catmarero);
         Instantiate(cliente);
+        //Instantiate(cocinero);
     }
 
     void Update()
@@ -35,4 +37,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void borrarCliente()
+    {
+        numClientes--;
+    }
 }

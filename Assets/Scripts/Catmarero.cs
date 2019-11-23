@@ -92,7 +92,11 @@ public class Catmarero : Gato {
         {
             case EstadosFSM1.ESPERAR:
                 if (mundo.hayPlatos())
-                    estadoActual = EstadosFSM1.COGER_PEDIDO;
+                {
+                    walkTo(posMesaPedidos);
+                    estadoActual = EstadosFSM1.ENTRAR_COCINA;
+                }
+                    
 
                 else if (mundo.clientesSinAtender())
                 {
@@ -112,8 +116,7 @@ public class Catmarero : Gato {
 
             break;
 
-            case EstadosFSM1.ENTRAR_COCINA:
-                walkTo(posMesaPedidos);
+            case EstadosFSM1.ENTRAR_COCINA:                
                 if(isInPosition())
                     estadoActual = EstadosFSM1.COGER_PEDIDO;
             break;
@@ -121,6 +124,7 @@ public class Catmarero : Gato {
             case EstadosFSM1.COGER_PEDIDO:
                 Plato platoActual = mundo.takePlato();
                 pedidoActual = platoActual.comida;
+                clienteActual = platoActual.cliente;
                 posMesaCliente = mundo.mesas[platoActual.mesa].transform.position;
                 pick(platoActual.plato);
                 estadoActual = EstadosFSM1.LLEVAR_PEDIDO;
@@ -132,6 +136,7 @@ public class Catmarero : Gato {
                 if (isInPosition())
                 {
                     set(pedidoActual);
+                    clienteActual.servir();
                     pedidoActual = null;
                     estadoActual = EstadosFSM1.VOLVER;
                 }
@@ -153,6 +158,7 @@ public class Catmarero : Gato {
                 {
                     if (clienteActual.estaDecidido())
                     {
+                        clienteActual.atender();
                         estadoActual = EstadosFSM1.TOMAR_NOTA;
                     }
                     else
@@ -169,8 +175,8 @@ public class Catmarero : Gato {
                 break;
 
             case EstadosFSM1.TOMAR_NOTA:
-                Plato actual = mundo.clienteAtendido();
-                pedidoActual = actual.comida;
+                //Plato actual = mundo.clienteAtendido();
+                pedidoActual = mundo.ComidaAleatoria();
                 estadoActual = EstadosFSM1.LLEVAR_COMANDA;
             break;
 
@@ -179,7 +185,7 @@ public class Catmarero : Gato {
 
                 if (isInPosition())
                 {
-                    mundo.pushComanda(mesaActual, pedidoActual);
+                    mundo.pushComanda(mesaActual, pedidoActual, clienteActual);
                     estadoActual = EstadosFSM1.VOLVER;
                 }
 

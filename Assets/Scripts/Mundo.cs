@@ -12,12 +12,14 @@ public class Mundo : MonoBehaviour
     public GameObject juguete;
     public Vector3 puestoCamareros;
     public Vector3 puestoMaitre;
+    public Vector3 puestoCocinero;
 
     public Vector3 principioCola;
     public Vector3 puestoCaco;
     public Vector3 puertaTrasera;
     public Vector3 muroComandas;
     public Vector3 posCocina;
+    public Vector3 posDestroy;
 
     //Distancia entre los clientes en la cola
     public float distanciaCola;
@@ -28,6 +30,10 @@ public class Mundo : MonoBehaviour
     //Rango de spawn de Clientes
     public Vector3 minSpawnCliente;
     public Vector3 maxSpawnCliente;
+
+    //Movimiento de cocinero
+    public Vector3 minCocinero;
+    public Vector3 maxCocinero;
 
     //Private parameters
     private int MAX_COMANDAS = 9;
@@ -88,11 +94,11 @@ public class Mundo : MonoBehaviour
     /// <summary>
     /// Añade una comanda al final de la cola de comandas si no está llena.
     /// </summary>
-    public void pushComanda(int mesa, string comida)
+    public void pushComanda(int mesa, string comida, Cliente cliente)
     {
         if (comandas.Count <= MAX_COMANDAS)
         {
-            comandas.Enqueue(new Plato(mesa, comida, null));
+            comandas.Enqueue(new Plato(mesa, comida, null, cliente));
         }
     }
 
@@ -152,12 +158,17 @@ public class Mundo : MonoBehaviour
     /// Devuelve un objeto plato con la mesa y la comida de un cliente.
     /// Uso exclusivo del Catmarero para sus comandas.
     /// </summary>
-    public Plato clienteAtendido()
+    /*public Plato clienteAtendido()
     {
         int mesa = popCliente();
 
         //Nos proporciona una comida aleatoria
         return new Plato(mesa, comidas[Random.Range(0, comidas.Length)], null);
+    }*/
+
+    public string ComidaAleatoria()
+    {
+        return comidas[Random.Range(0, comidas.Length)];
     }
 
     /// <summary>
@@ -291,10 +302,10 @@ public class Mundo : MonoBehaviour
         return (clientesCola.Count.Equals(MAX_COLA));
     }
 
-    public void setPlato(string nombre, int mesa, GameObject plato)
+    public void setPlato(string nombre, int mesa, GameObject plato, Cliente cliente)
     {
         //Falta crear el plato en el mundo
-        platoCocinero = new Plato(mesa, nombre, plato);
+        platoCocinero = new Plato(mesa, nombre, plato, cliente);
     }
 
     public bool hayPlato()

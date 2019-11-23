@@ -13,7 +13,7 @@ public class Cocinero : Gato
     private Plato platoActual;
     private float timer;
     private float cocinaTimer;
-    private Catco referenciaCatco;
+    
 
     //Para caminar por la cocina
     Vector3 posVagar;
@@ -25,6 +25,9 @@ public class Cocinero : Gato
     void Start()
     {
         posMesaPedidos = mundo.mesaPedidos.transform.position;
+        transform.position = mundo.puestoCocinero;
+        this.min = mundo.minCocinero;
+        this.max = mundo.maxCocinero;
         this.estadoActual = EstadosFSM.ESPERAR;
         this.estadoCocinar = CocinarFSM.PENSAR;
     }
@@ -40,20 +43,17 @@ public class Cocinero : Gato
         switch (estadoActual)
         {
             case EstadosFSM.ESPERAR:
-                //Camina por la cocina
                 if (mundo.hayComandas())
                 {
                     walkTo(mundo.muroComandas);
                     if (isInPosition())
                     {
                         platoActual = mundo.takeComanda();
-                        mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato);
+                        mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato, platoActual.cliente);
                         timer = Random.Range(10f, 20f);
                         estadoActual = EstadosFSM.COCINAR;
                     }
                 }
-
-
                 break;
 
             case EstadosFSM.COCINAR:
@@ -64,6 +64,7 @@ public class Cocinero : Gato
                     pick(mundo.getPlato().plato);
                     walkTo(posMesaPedidos);
                     estadoActual = EstadosFSM.LLEVAR_COMIDA;
+                    estadoCocinar = CocinarFSM.PENSAR;
                 }
                 else
                 {
@@ -75,27 +76,29 @@ public class Cocinero : Gato
                 //Si ya han robado el plato lo vuelve a empezar
                 if (!mundo.hayPlato())
                 {
-                    mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato);
-                    this.timer = Random.Range(5f, 20f);
+                    mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato, platoActual.cliente);
+                    timer = Random.Range(10f, 20f);
                 }
                 //If con percepción del ladron en el camino
                 if (true)
                 {
-                    rotateTowards(referenciaCatco.transform.position);
-                    if (isLookingTowards(referenciaCatco.transform.position))
-                    {
-                        //angry();
-                        referenciaCatco.Pillado();
-                        estadoActual = EstadosFSM.ECHAR_LADRON;
-                    }
+                    angry();
+                    //referenciaCatco.Pillado();
+                    timer = Random.Range(2f, 3f);
+                    estadoActual = EstadosFSM.ECHAR_LADRON;
+                    
                 }
                 break;
 
             case EstadosFSM.ECHAR_LADRON:
-                //if (!estaAngry())
+                timer -= Time.deltaTime;
+
+                if(timer <= 0)
                 {
-                estadoActual = EstadosFSM.COCINAR;
+                    timer = Random.Range(10f, 20f);
+                    estadoActual = EstadosFSM.COCINAR;
                 }
+                
                 break;
 
             case EstadosFSM.LLEVAR_COMIDA:
@@ -119,16 +122,12 @@ public class Cocinero : Gato
         switch (estadoCocinar)
         {
             case CocinarFSM.COCINAR:
-
                 if (isInPosition())
                     cook();
-
-                if (timer <= 0)
-                    estadoCocinar = CocinarFSM.PENSAR;
                 break;
 
             case CocinarFSM.PENSAR:
-                if(timer <= 5)
+                if(timer <= 7)
                 {
                     walkTo(mundo.posCocina);
                     estadoCocinar = CocinarFSM.COCINAR;

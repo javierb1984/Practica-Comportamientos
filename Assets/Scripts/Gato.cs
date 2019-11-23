@@ -9,6 +9,7 @@ public class Gato : MonoBehaviour {
 
     public NavMeshAgent agent;
     protected Mundo mundo;
+    protected GameManager gameManager;
     private float walkingSpeed = 1f;
     private float runningSpeed = 2f;
     private bool estaSentado = false;
@@ -17,6 +18,7 @@ public class Gato : MonoBehaviour {
     void Awake()
     {
         mundo = FindObjectOfType<Mundo>();
+        gameManager = FindObjectOfType<GameManager>();
         agent = transform.GetComponent<NavMeshAgent>();
         animator = transform.GetComponent<Animator>();
     }
@@ -132,11 +134,11 @@ public class Gato : MonoBehaviour {
         animator.Play("Play");
     }
 
-    protected void angry(Vector3 lookAt){
+    protected void angry(){
         animator.Play("Angry");
     }
 
-    protected void shamed(Vector3 lookAt){
+    protected void shamed(){
         animator.Play("Shamed");
     }
 
