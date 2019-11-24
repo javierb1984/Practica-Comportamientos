@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cliente : Gato
 {
-    private enum EstadosFSM { VAGAR, EN_COLA, AVANZA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, DECIDIR_MENU, ESPERAR_PEDIDO, COMER, SALIR};
+    private enum EstadosFSM { VAGAR, EN_COLA, AVANZA, ESPERAR_MAITRE, SEGUIR_MAITRE, SENTARSE, SENTADO, DECIDIR_MENU, ESPERAR_PEDIDO, COMER, SALIR};
     private enum VagarFSM { VAGAR, PENSAR};
     private EstadosFSM estadoActual;
     private VagarFSM estadoVagar;
@@ -127,7 +127,7 @@ public class Cliente : Gato
                 walkTo(maitre.transform.position);
                 if (avisoSentarse)
                 {
-                    timer = Random.Range(5, 10);//reutilizar timer o usar uno nuevo
+                    timer = 1.2f;
                     Vector3 position = mundo.mesas[mesaActual].transform.position;
                     walkTo(position);                    
 
@@ -147,6 +147,17 @@ public class Cliente : Gato
                     sitDown();
                     mundo.pushCliente(mesaActual, this);
                     maitre.Sentado();
+                    estadoActual = EstadosFSM.SENTADO;
+                }
+                break;
+
+            case EstadosFSM.SENTADO:
+                timer -= Time.deltaTime;
+
+                if (timer <= 0)
+                {
+                    wait();
+                    timer = Random.Range(5, 10);
                     estadoActual = EstadosFSM.DECIDIR_MENU;
                 }
                 break;

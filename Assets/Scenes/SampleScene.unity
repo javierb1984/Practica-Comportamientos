@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ef8c68bade09b41aca258d42a632f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastTab: 0
+  lastTab: 1
   movementSettingsFoldout: 0
   zoomingSettingsFoldout: 0
   rotationSettingsFoldout: 0
@@ -1696,12 +1696,12 @@ MonoBehaviour:
   - {fileID: 767659147}
   - {fileID: 1140061776}
   - {fileID: 229830554}
+  - {fileID: 395570053}
+  - {fileID: 967040275}
   - {fileID: 204166156}
   - {fileID: 315661316}
   - {fileID: 733542229}
   - {fileID: 1122689985}
-  - {fileID: 395570053}
-  - {fileID: 967040275}
   mesaPedidos: {fileID: 714757974}
   mesaMaitre: {fileID: 1406435080}
   juguete: {fileID: 1439663875}
