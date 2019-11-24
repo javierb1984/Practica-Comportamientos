@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour
     public GameObject maitre;
     public GameObject cliente;
     public GameObject catmarero;
+    public GameObject cocinero;
     public GameObject catco;
     public GameObject encargado;
-
 
     private float countdown;
     private int numClientes;
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         Instantiate(maitre);
         Instantiate(catmarero);
         Instantiate(cliente);
+        //Instantiate(cocinero);
         Instantiate(catco);
         Instantiate(encargado);
 
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
         /*mundo = GetComponent<Mundo>();
         plato = mundo.plato;
         mundo.setPlato("A", 1, plato);*/
+
     }
 
     void Update()
@@ -49,4 +51,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void borrarCliente()
+    {
+        numClientes--;
+    }
 }
