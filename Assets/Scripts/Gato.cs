@@ -38,25 +38,13 @@ public class Gato : MonoBehaviour {
 	public void walkTo(Vector3 destination){
         agent.isStopped = false;
         agent.speed = walkingSpeed;
-        animator.Play("Walking");
-        /*if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
-        {
-            animator.CrossFadeInFixedTime("Walking", TRANSITION_DURATION, 0);
-        }*/
-       
+        animator.Play("Walking");       
         agent.destination = destination;       
     }
-
-    /*public void setAxis()
-    {
-        animator.SetFloat("Horizontal", transform.right.x);
-        animator.SetFloat("Vertical", transform.right.z);
-    }*/
 
     public void runTo(Vector3 destination){
         agent.isStopped = false;
         agent.speed = runningSpeed;
-        //animator.SetFloat("Animation", 1);
         animator.Play("Running");
         agent.SetDestination(destination);
 
@@ -82,7 +70,6 @@ public class Gato : MonoBehaviour {
     //Se podría cambiar como unico del cliente que es el unico que se sienta
     protected void sitDown(){
         agent.isStopped = true;
-        //animator.SetFloat("Animation", 4);
         animator.Play("SitDown");
         estaSentado = true;
     }
@@ -111,7 +98,6 @@ public class Gato : MonoBehaviour {
 
     protected void wait() {
         agent.isStopped = true;
-        //animator.SetFloat("Animation", 2);
         animator.Play("Waiting");
     }
 
@@ -126,7 +112,6 @@ public class Gato : MonoBehaviour {
 
     protected void play(){
         agent.isStopped = true;
-        //animator.SetFloat("Animation", 2);
         animator.Play("Play");
     }
 
@@ -138,8 +123,4 @@ public class Gato : MonoBehaviour {
         animator.Play("Shamed");
     }
 
-    /*void FixedUpdate()
-    {
-        setAxis();
-    }*/
 }
