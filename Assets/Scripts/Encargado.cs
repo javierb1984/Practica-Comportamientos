@@ -77,7 +77,6 @@ public class Encargado : Gato
 
             case EstadosFSM.BRONCA_EN_CURSO:
                 timer -= Time.deltaTime;
-                Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Angry"));
                 if(timer <= 0)
                 {
                     catmarero.volverAlTrabajo();

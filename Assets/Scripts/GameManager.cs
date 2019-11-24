@@ -14,10 +14,6 @@ public class GameManager : MonoBehaviour
     private float countdown;
     private int numClientes;
 
-    //Provisional para probar al ladrón
-    /*private Mundo mundo;
-    private GameObject plato;*/
-
     void Start()
     {
         countdown = Random.Range(10, 20);
@@ -28,12 +24,6 @@ public class GameManager : MonoBehaviour
         Instantiate(cocinero);
         Instantiate(catco);
         Instantiate(encargado);
-
-        //Provisional
-        /*mundo = GetComponent<Mundo>();
-        plato = mundo.plato;
-        mundo.setPlato("A", 1, plato);*/
-
     }
 
     void Update()

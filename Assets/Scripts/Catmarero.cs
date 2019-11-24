@@ -17,7 +17,7 @@ public class Catmarero : Gato {
     private Vector3 puestoCamarero;
     private Vector3 posMesaPedidos;
     private Vector3 posMesaCliente;
-    private Vector3 muroComandas;
+    private Vector3 posCatmareroCocina;
 
     private Cliente clienteActual;
 
@@ -37,10 +37,10 @@ public class Catmarero : Gato {
     //Inicialización de variables de mundo
     void Start () {
         puestoCamarero = mundo.puestoCamareros;
-        muroComandas = mundo.muroComandas;
+        posCatmareroCocina = mundo.posCatmereroCocina.transform.position;
         juguete = mundo.juguete;
         transform.position = puestoCamarero;
-        posMesaPedidos = mundo.posMesaPedidos;
+        posMesaPedidos = mundo.mesaPedidos.transform.GetChild(0).position;
         estadoActual = EstadosFSM1.ESPERAR;
         estadoDistraerse = EstadosDistraerse.TRABAJAR;
         veJuguete = false;
@@ -149,12 +149,11 @@ public class Catmarero : Gato {
                 clienteActual = platoActual.cliente;
                 posMesaCliente = mundo.mesas[platoActual.mesa].transform.position;
                 pick(platoActual.plato);
+                walkTo(posMesaCliente);
                 estadoActual = EstadosFSM1.LLEVAR_PEDIDO;
             break;
 
             case EstadosFSM1.LLEVAR_PEDIDO:
-                walkTo(posMesaCliente);
-
                 if (isInPosition())
                 {
                     set(pedidoActual);
@@ -201,7 +200,7 @@ public class Catmarero : Gato {
             case EstadosFSM1.TOMAR_NOTA:
                 //Plato actual = mundo.clienteAtendido();
                 pedidoActual = mundo.ComidaAleatoria();
-                walkTo(muroComandas);
+                walkTo(posCatmareroCocina);
                 estadoActual = EstadosFSM1.LLEVAR_COMANDA;
             break;
 

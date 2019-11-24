@@ -10,17 +10,18 @@ public class Mundo : MonoBehaviour
     public GameObject mesaPedidos;
     public GameObject mesaMaitre;
     public GameObject juguete;
+    public GameObject posCocina;
+    public GameObject posCocinero;
+    public GameObject[] posicionesPedidos;
+    public GameObject posCatmereroCocina;
     public Vector3 puestoCamareros;
     public Vector3 puestoMaitre;
-    public Vector3 puestoCocinero;
 
     public Vector3 principioCola;
     public Vector3 puestoCaco;
     public Vector3 puertaTrasera;
-    public Vector3 muroComandas;
-    public Vector3 posCocina;
+
     public Vector3 posDestroy;
-    public Vector3 posMesaPedidos;
 
     //Camino del encargado
     public GameObject pathEncargado;
@@ -50,6 +51,7 @@ public class Mundo : MonoBehaviour
     //Cliente-plato-objeto
     private Queue<Plato> comandas;
     private Queue<Plato> platos;
+    private int nextPlatoPosition;
 
     //Clientes por sentarse
     private Queue<Cliente> clientesCola;
@@ -81,6 +83,9 @@ public class Mundo : MonoBehaviour
         {
             mesasOcupadas[i] = false;
         }
+
+        nextPlatoPosition = 0;
+        MAX_COMANDAS = posicionesPedidos.Length;
     }
 
     //Métodos para acceder a comandas
@@ -97,11 +102,7 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public void pushComanda(int mesa, string comida, Cliente cliente)
     {
-        Debug.Log("Se ha añadido comanda");
-        if (comandas.Count <= MAX_COMANDAS)
-        {
-            comandas.Enqueue(new Plato(mesa, comida, null, cliente));
-        }
+        comandas.Enqueue(new Plato(mesa, comida, null, cliente));
     }
 
     /// <summary>
@@ -125,10 +126,17 @@ public class Mundo : MonoBehaviour
     /// <summary>
     /// Inserta un plato al final de la cola.
     /// </summary>
-    public void pushPlato(Plato plato)
+    public bool pushPlato(Plato plato)
     {
-        if (platos.Count <= MAX_COMANDAS)
+        bool pushed = false;
+        if (platos.Count < MAX_COMANDAS)
+        {
+            plato.plato = Instantiate(this.plato, posicionesPedidos[nextPlatoPosition].transform.position, this.plato.transform.rotation);
             platos.Enqueue(plato);
+            pushed = true;
+            nextPlatoPosition = (nextPlatoPosition + 1) % MAX_COMANDAS;
+        }
+        return pushed;
     }
 
     /// <summary>
@@ -136,7 +144,9 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public Plato takePlato()
     {
-        return platos.Dequeue();
+        Plato aux = platos.Dequeue();
+        Destroy(aux.plato);
+        return aux;
     }
 
     //Métodos para acceder a clientes

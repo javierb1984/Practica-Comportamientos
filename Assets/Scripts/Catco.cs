@@ -24,7 +24,7 @@ public class Catco : Gato
         puestoCaco = mundo.puestoCaco;
         transform.position = puestoCaco;
 
-        posPlato = mundo.posCocina;
+        posPlato = mundo.posCocina.transform.position;
         comida = null;
         puertaTrasera = mundo.puertaTrasera;
         cocineroEnElCamino = false;
@@ -67,7 +67,6 @@ public class Catco : Gato
                 if (pillado || !mundo.hayPlato() || cocineroEnElCamino)
                 {
                     Debug.Log("Salgo por patas");
-
                     runTo(puestoCaco);
                     estadoActual = EstadosFSM.VOLVER;
                 }

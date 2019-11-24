@@ -187,8 +187,7 @@ public class Cliente : Gato
 
             case EstadosFSM.SALIR:
                 if (isInPosition())
-                {
-                    
+                {                    
                     Destroy(gameObject);
                     gameManager.borrarCliente();
                 }
