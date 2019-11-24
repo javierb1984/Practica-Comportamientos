@@ -10,14 +10,22 @@ public class Catco : Gato
     private Vector3 puertaTrasera;
     private Vector3 posPlato;
     private bool pillado;
-    Plato comida; 
+    private Plato comida;
+    private GameObject platoComiendo;
+
+    //Timers de comer
+    private float timer;
 
     void Start()
     {
+        //Posicion de spawn
+        puestoCaco = mundo.puestoCaco;
         transform.position = puestoCaco;
+
+        posPlato = mundo.posCocina;
         comida = null;
         puertaTrasera = mundo.puertaTrasera;
-        puestoCaco = mundo.puestoCaco;
+        idle();
     }
 
     // Update is called once per frame
@@ -32,18 +40,20 @@ public class Catco : Gato
         switch (estadoActual)
         {
             case EstadosFSM.ESPERAR:
+
                 if (mundo.hayPlato())
+                {
+                    walkTo(puertaTrasera);
                     estadoActual = EstadosFSM.ENTRAR;
+                }
                 break;
 
             case EstadosFSM.ENTRAR:
-                walkTo(puertaTrasera);
-
                 if (isInPosition())
                 {
                     //If con percepción del cocinero en el camino
                     Plato plato = mundo.pollPlato();
-                    posPlato = plato.plato.transform.position;
+                    walkTo(posPlato);
                     estadoActual = EstadosFSM.IR_PLATO;
                 }
                 break;
@@ -53,28 +63,30 @@ public class Catco : Gato
                 {
                     estadoActual = EstadosFSM.VOLVER;
                 }
-                else
+                else if(isInPosition())
                 {
                     Plato plato = mundo.pollPlato();
-                    walkTo(posPlato);
-
-                    if(isInPosition())
-                        estadoActual = EstadosFSM.COGER_PLATO;
+                    estadoActual = EstadosFSM.COGER_PLATO;
                 }
                 break;
 
             case EstadosFSM.COGER_PLATO:
-                comida = mundo.getPlato();
+                comida = mundo.getPlato();                
                 pick(comida.plato);
+                runTo(puestoCaco);
                 estadoActual = EstadosFSM.VOLVER;
                 break;
 
             case EstadosFSM.VOLVER:
-                runTo(puestoCaco);
                 if (isInPosition())
                 {
                     if (comida != null)
+                    {
+                        timer = 10;
+                        platoComiendo = Instantiate(mundo.plato, transform.position + transform.forward * 0.5f, mundo.plato.transform.rotation);
+                        eat();
                         estadoActual = EstadosFSM.COMER;
+                    }
                     else
                         estadoActual = EstadosFSM.ESPERAR;
                     pillado = false;
@@ -82,9 +94,14 @@ public class Catco : Gato
                 break;
 
             case EstadosFSM.COMER:
-                //Faltan cosas
-                comida = null;
-                estadoActual = EstadosFSM.ESPERAR;
+                timer -= Time.deltaTime;
+                if (timer <= 0)
+                {
+                    Destroy(platoComiendo);
+                    comida = null;
+                    idle();
+                    estadoActual = EstadosFSM.ESPERAR;
+                }
                 break;
         }
     }

@@ -13,7 +13,7 @@ public class Gato : MonoBehaviour {
     private float walkingSpeed = 1f;
     private float runningSpeed = 2f;
     private bool estaSentado = false;
-    private Animator animator;
+    protected Animator animator;
 
     void Awake()
     {
@@ -38,18 +38,13 @@ public class Gato : MonoBehaviour {
 	public void walkTo(Vector3 destination){
         agent.isStopped = false;
         agent.speed = walkingSpeed;
-        //animator.SetFloat("Animation", 0);
         animator.Play("Walking");
         /*if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
         {
             animator.CrossFadeInFixedTime("Walking", TRANSITION_DURATION, 0);
         }*/
        
-        agent.destination = destination;
-        //rotateTowards(destination);
-
-        Debug.Log("AAAAAAAA");
-        
+        agent.destination = destination;       
     }
 
     /*public void setAxis()
@@ -120,11 +115,12 @@ public class Gato : MonoBehaviour {
         animator.Play("Waiting");
     }
 
-    protected void eat(/*Item food*/){
+
+    protected void eat(){
         animator.Play("Eating");
     }
 
-    protected void cook(/*Item food*/){
+    protected void cook(){
         animator.Play("Cooking");
     }
 

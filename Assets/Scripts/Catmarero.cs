@@ -6,7 +6,7 @@ public class Catmarero : Gato {
 
     private enum EstadosFSM1 { ESPERAR, ENTRAR_COCINA, COGER_PEDIDO, LLEVAR_PEDIDO, IR_MESA, MISMA_MESA, CONSULTAR_CLIENTE, TOMAR_NOTA, LLEVAR_COMANDA, VOLVER }
     private EstadosFSM1 estadoActual;
-    private enum EstadosDistraerse {TRABAJAR, IR_JUGUETE, DISTRAERSE}
+    private enum EstadosDistraerse {TRABAJAR, IR_JUGUETE, DISTRAERSE, AVERGONZADO}
     private EstadosDistraerse estadoDistraerse;
     private string pedidoActual = null;
 
@@ -28,8 +28,11 @@ public class Catmarero : Gato {
 
     //True si el juguete entra en su collider
     private bool veJuguete;
-    public bool avisoEncargado;
+    private bool mirarEncargado;
+    private bool distraido;
+    public bool vuelveAlTrabajo;
     private GameObject juguete;
+    private GameObject encargado;
 
     //Inicialización de variables de mundo
     void Start () {
@@ -41,7 +44,9 @@ public class Catmarero : Gato {
         estadoActual = EstadosFSM1.ESPERAR;
         estadoDistraerse = EstadosDistraerse.TRABAJAR;
         veJuguete = false;
-        avisoEncargado = false;
+        vuelveAlTrabajo = false;
+        distraido = false;
+        mirarEncargado = false;
         timer = waitingTime;
         timerDistraerse = 0;
         idle();
@@ -69,16 +74,32 @@ public class Catmarero : Gato {
                 }
                 break;
             case EstadosDistraerse.IR_JUGUETE:
-                if (isInPosition())
+                rotateTowards(juguete.transform.position);
+                if (isInPosition() && isLookingTowards(juguete.transform.position))
                 {
                     play();
+                    distraido = true;
                     estadoDistraerse = EstadosDistraerse.DISTRAERSE;
                 }
                 break;
             case EstadosDistraerse.DISTRAERSE:
-                if (avisoEncargado)
+                if (mirarEncargado)
                 {
-                    avisoEncargado = false;
+                    idle();
+                    rotateTowards(encargado.transform.position);
+                    if (isLookingTowards(encargado.transform.position))
+                    {
+                        shamed();
+                        estadoDistraerse = EstadosDistraerse.AVERGONZADO;
+                    }
+                }
+
+                break;
+            case EstadosDistraerse.AVERGONZADO:
+                if (vuelveAlTrabajo)
+                {
+                    distraido = false;
+                    vuelveAlTrabajo = false;
                     estadoDistraerse = EstadosDistraerse.TRABAJAR;
                 }
                 break;
@@ -202,9 +223,20 @@ public class Catmarero : Gato {
         }
     }
 
-    public void encargado()
+    public void volverAlTrabajo()
     {
-        avisoEncargado = true;
+        vuelveAlTrabajo = true;
+    }
+
+    public bool isDistraido()
+    {
+        return distraido;
+    }
+
+    public void lookAtEncargado(GameObject encargado)
+    {
+        this.encargado = encargado;
+        mirarEncargado = true;
     }
 
     void OnTriggerEnter(Collider other)

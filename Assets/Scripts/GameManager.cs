@@ -8,9 +8,15 @@ public class GameManager : MonoBehaviour
     public GameObject cliente;
     public GameObject catmarero;
     public GameObject cocinero;
+    public GameObject catco;
+    public GameObject encargado;
 
     private float countdown;
     private int numClientes;
+
+    //Provisional para probar al ladrón
+    /*private Mundo mundo;
+    private GameObject plato;*/
 
     void Start()
     {
@@ -20,6 +26,14 @@ public class GameManager : MonoBehaviour
         Instantiate(catmarero);
         Instantiate(cliente);
         //Instantiate(cocinero);
+        Instantiate(catco);
+        Instantiate(encargado);
+
+        //Provisional
+        /*mundo = GetComponent<Mundo>();
+        plato = mundo.plato;
+        mundo.setPlato("A", 1, plato);*/
+
     }
 
     void Update()

@@ -21,11 +21,14 @@ public class Mundo : MonoBehaviour
     public Vector3 posCocina;
     public Vector3 posDestroy;
 
+    //Camino del encargado
+    public GameObject pathEncargado;
+
+    //Platos
+    public GameObject plato;
+
     //Distancia entre los clientes en la cola
     public float distanciaCola;
-
-    //Mutex
-    public object Lock;
 
     //Rango de spawn de Clientes
     public Vector3 minSpawnCliente;
@@ -61,7 +64,6 @@ public class Mundo : MonoBehaviour
 
     //Plato que está cocinando el cocinero
     private Plato platoCocinero;
- 
 
     void Awake()
     {
@@ -78,8 +80,6 @@ public class Mundo : MonoBehaviour
         {
             mesasOcupadas[i] = false;
         }
-
-        Lock = new object();
     }
 
     //Métodos para acceder a comandas
@@ -304,8 +304,8 @@ public class Mundo : MonoBehaviour
 
     public void setPlato(string nombre, int mesa, GameObject plato, Cliente cliente)
     {
-        //Falta crear el plato en el mundo
-        platoCocinero = new Plato(mesa, nombre, plato, cliente);
+        GameObject platoInstancia = Instantiate(plato);
+        platoCocinero = new Plato(mesa, nombre, platoInstancia, cliente);
     }
 
     public bool hayPlato()
