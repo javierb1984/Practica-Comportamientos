@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &65240575888494036
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4398524650923038457}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.5, z: 2}
+  m_Center: {x: 0, y: 0.25, z: 1}
 --- !u!95 &408979881
 Animator:
   serializedVersion: 3
@@ -10,7 +23,7 @@ Animator:
   m_GameObject: {fileID: 4398524650923038457}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 91c2c6bee03e0fd4bb76ff84b387746c, type: 2}
+  m_Controller: {fileID: 9100000, guid: e5cdec1fc1ce1e8458df0f2b835607ae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -63,7 +76,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100058, guid: 75c40bde8b81e1744b7b905834bc72e3, type: 3}
       propertyPath: m_Name
-      value: "Ladr\xF3n"
+      value: Ladron
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 75c40bde8b81e1744b7b905834bc72e3, type: 3}
+      propertyPath: m_TagString
+      value: Ladron
       objectReference: {fileID: 0}
     - target: {fileID: 400058, guid: 75c40bde8b81e1744b7b905834bc72e3, type: 3}
       propertyPath: m_LocalPosition.x

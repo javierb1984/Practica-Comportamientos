@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  avisoEncargado: 0
+  vuelveAlTrabajo: 0
 --- !u!1 &6062990737802175363
 GameObject:
   m_ObjectHideFlags: 0

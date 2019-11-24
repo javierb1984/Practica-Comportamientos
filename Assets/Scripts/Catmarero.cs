@@ -40,7 +40,7 @@ public class Catmarero : Gato {
         muroComandas = mundo.muroComandas;
         juguete = mundo.juguete;
         transform.position = puestoCamarero;
-        posMesaPedidos = mundo.mesaPedidos.transform.position;
+        posMesaPedidos = mundo.posMesaPedidos;
         estadoActual = EstadosFSM1.ESPERAR;
         estadoDistraerse = EstadosDistraerse.TRABAJAR;
         veJuguete = false;
