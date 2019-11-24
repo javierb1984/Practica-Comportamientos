@@ -33,6 +33,8 @@ public class Catmarero : Gato {
     public bool vuelveAlTrabajo;
     private GameObject juguete;
     private GameObject encargado;
+    private GameObject platoLlevando;
+    private Transform bandeja;
 
     //Inicialización de variables de mundo
     void Start () {
@@ -49,6 +51,7 @@ public class Catmarero : Gato {
         mirarEncargado = false;
         timer = waitingTime;
         timerDistraerse = 30;
+        bandeja = transform.Find("bandeja");
         idle();
 	}
 
@@ -113,26 +116,28 @@ public class Catmarero : Gato {
         switch (estadoActual)
         {
             case EstadosFSM1.ESPERAR:
-                if (mundo.hayPlatos())
+                timer -= Time.deltaTime;
+                if (timer <= 0)
                 {
-                    walkTo(posMesaPedidos);
-                    estadoActual = EstadosFSM1.ENTRAR_COCINA;
-                }
-                    
-
-                else if (mundo.clientesSinAtender())
-                {
-                    timer -= Time.deltaTime;
-
-                    if (timer <= 0)
+                    if (mundo.hayPlatos())
                     {
+                        walkTo(posMesaPedidos);
+                        estadoActual = EstadosFSM1.ENTRAR_COCINA;
+                    }
+
+
+                    else if (mundo.clientesSinAtender())
+                    {
+
                         mesaActual = mundo.clientePorAtender();
 
                         clienteActual = mundo.getClienteEnMesa(mesaActual);
                         posMesaCliente = mundo.mesas[mesaActual].transform.parent.GetChild(0).position;
+                        Debug.Log("ESPERAR: " + mesaActual + "," + clienteActual);
                         walkTo(posMesaCliente);
 
                         estadoActual = EstadosFSM1.IR_MESA;
+
                     }
                 }
 
@@ -146,9 +151,15 @@ public class Catmarero : Gato {
             case EstadosFSM1.COGER_PEDIDO:
                 Plato platoActual = mundo.takePlato();
                 pedidoActual = platoActual.comida;
+                mesaActual = platoActual.mesa;
                 clienteActual = platoActual.cliente;
-                posMesaCliente = mundo.mesas[platoActual.mesa].transform.parent.GetChild(0).position;
+                posMesaCliente = mundo.mesas[mesaActual].transform.parent.GetChild(0).position;
                 pick(platoActual.plato);
+
+                //Ponemos el plato en la bandeja del catmarero
+                platoLlevando = Instantiate(mundo.plato, bandeja.position + transform.up * 0.05f, mundo.plato.transform.rotation);
+                platoLlevando.transform.SetParent(bandeja);
+
                 walkTo(posMesaCliente);
                 estadoActual = EstadosFSM1.LLEVAR_PEDIDO;
             break;
@@ -156,9 +167,11 @@ public class Catmarero : Gato {
             case EstadosFSM1.LLEVAR_PEDIDO:
                 if (isInPosition())
                 {
-                    set(pedidoActual);
-                    clienteActual.servir();
+                    Destroy(platoLlevando);
+                    GameObject pedido = Instantiate(mundo.plato, mundo.mesas[mesaActual].transform.GetChild(0).position, mundo.plato.transform.rotation);
+                    clienteActual.servir(pedido);
                     pedidoActual = null;
+                    walkTo(puestoCamarero);
                     estadoActual = EstadosFSM1.VOLVER;
                 }
             break;
@@ -198,7 +211,6 @@ public class Catmarero : Gato {
                 break;
 
             case EstadosFSM1.TOMAR_NOTA:
-                //Plato actual = mundo.clienteAtendido();
                 pedidoActual = mundo.ComidaAleatoria();
                 walkTo(posCatmareroCocina);
                 estadoActual = EstadosFSM1.LLEVAR_COMANDA;
@@ -208,6 +220,7 @@ public class Catmarero : Gato {
 
                 if (isInPosition())
                 {
+                    Debug.Log("LLEVARCOMANDA: "+mesaActual + "," + pedidoActual + "," + clienteActual);
                     mundo.pushComanda(mesaActual, pedidoActual, clienteActual);
                     estadoActual = EstadosFSM1.VOLVER;
                 }

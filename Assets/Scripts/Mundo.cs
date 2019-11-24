@@ -133,7 +133,6 @@ public class Mundo : MonoBehaviour
             platos.Enqueue(plato);
             pushed = true;
         }
-        Debug.Log(pushed);
         return pushed;
     }
 

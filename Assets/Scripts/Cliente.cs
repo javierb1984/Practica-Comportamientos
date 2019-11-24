@@ -28,6 +28,8 @@ public class Cliente : Gato
     private Vector3 posColaMaitre;
     private bool inPosCola;
 
+    private GameObject pedido;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -179,6 +181,7 @@ public class Cliente : Gato
                 timer -= Time.deltaTime;
                 if(timer <= 0)
                 {
+                    Destroy(pedido);
                     walkTo(mundo.posDestroy);
                     mundo.clienteLeaves(mesaActual);
                     estadoActual = EstadosFSM.SALIR;
@@ -219,7 +222,6 @@ public class Cliente : Gato
     {
         mesaActual = mesa;
         avisoMaitre = true;
-        //////////
     }
 
     public void sentar()
@@ -227,8 +229,9 @@ public class Cliente : Gato
         avisoSentarse = true;
     }
 
-    public void servir()//su usara en camarero
+    public void servir(GameObject pedido)//su usara en camarero
     {
+        this.pedido = pedido;
         servido = true;
     }
 
