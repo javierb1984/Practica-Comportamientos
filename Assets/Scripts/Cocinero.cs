@@ -11,6 +11,7 @@ public class Cocinero : Gato
     private CocinarFSM estadoCocinar;
     private Vector3 posMesaPedidos;
     private Plato platoActual;
+    private GameObject plato;
     private float timer;
     private float cocinaTimer;
     
@@ -49,7 +50,7 @@ public class Cocinero : Gato
                     if (isInPosition())
                     {
                         platoActual = mundo.takeComanda();
-                        mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato, platoActual.cliente);
+                        mundo.setPlato(platoActual.comida, platoActual.mesa, mundo.plato, platoActual.cliente);
                         timer = Random.Range(10f, 20f);
                         estadoActual = EstadosFSM.COCINAR;
                     }
@@ -76,11 +77,11 @@ public class Cocinero : Gato
                 //Si ya han robado el plato lo vuelve a empezar
                 if (!mundo.hayPlato())
                 {
-                    mundo.setPlato(platoActual.comida, platoActual.mesa, platoActual.plato, platoActual.cliente);
+                    mundo.setPlato(platoActual.comida, platoActual.mesa, mundo.plato, platoActual.cliente);
                     timer = Random.Range(10f, 20f);
                 }
                 //If con percepción del ladron en el camino
-                if (true)
+                if (false)
                 {
                     angry();
                     //referenciaCatco.Pillado();

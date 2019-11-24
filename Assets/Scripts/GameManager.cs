@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         Instantiate(maitre);
         Instantiate(catmarero);
         Instantiate(cliente);
-        //Instantiate(cocinero);
+        Instantiate(cocinero);
         Instantiate(catco);
         Instantiate(encargado);
 
