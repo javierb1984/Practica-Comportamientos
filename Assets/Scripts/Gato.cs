@@ -58,7 +58,7 @@ public class Gato : MonoBehaviour {
 
 
     //Animación inversa a pick
-    protected void set(string plato) {
+    protected void set() {
         animator.Play("Leave");
     }
 
