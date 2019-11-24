@@ -66,7 +66,7 @@ public class Cocinero : Gato
                 rotateTowards(puestoCocinar.transform.parent.position);
                 if (isInPosition() && isLookingTowards(puestoCocinar.transform.parent.position))
                 {
-                    timer = Random.Range(5f, 10f);
+                    timer = Random.Range(10f, 15f);
                     mundo.setPlato(platoActual.comida, platoActual.mesa, mundo.plato, platoActual.cliente);
                     estadoActual = EstadosFSM.COCINAR;
                 }
@@ -74,6 +74,7 @@ public class Cocinero : Gato
 
             case EstadosFSM.COCINAR:
                 //Si acaba de cocinar
+                timer -= Time.deltaTime;
                 if (timer <= 0)
                 {
                     Debug.Log("Termina de cocinar");
@@ -90,7 +91,6 @@ public class Cocinero : Gato
                 }
                 else
                 {
-                    timer -= Time.deltaTime;
                     FSM_Cocinar();
                 }
                 break;
@@ -135,7 +135,7 @@ public class Cocinero : Gato
                 break;
 
             case CocinarFSM.PENSAR:
-                if(timer <= 5)
+                if(timer <= 7.5)
                 {
                     walkTo(mundo.posCocina.transform.position);
                     estadoCocinar = CocinarFSM.COCINAR;

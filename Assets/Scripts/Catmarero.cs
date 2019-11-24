@@ -133,7 +133,6 @@ public class Catmarero : Gato {
 
                         clienteActual = mundo.getClienteEnMesa(mesaActual);
                         posMesaCliente = mundo.mesas[mesaActual].transform.parent.GetChild(0).position;
-                        Debug.Log("ESPERAR: " + mesaActual + "," + clienteActual);
                         walkTo(posMesaCliente);
 
                         estadoActual = EstadosFSM1.IR_MESA;
@@ -220,7 +219,6 @@ public class Catmarero : Gato {
 
                 if (isInPosition())
                 {
-                    Debug.Log("LLEVARCOMANDA: "+mesaActual + "," + pedidoActual + "," + clienteActual);
                     mundo.pushComanda(mesaActual, pedidoActual, clienteActual);
                     estadoActual = EstadosFSM1.VOLVER;
                 }
