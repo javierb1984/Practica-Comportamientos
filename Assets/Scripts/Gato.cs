@@ -80,7 +80,7 @@ public class Gato : MonoBehaviour {
     }
 
     //Se podría cambiar como unico del cliente que es el unico que se sienta
-    protected void sitDown(Transform lookAt){
+    protected void sitDown(){
         agent.isStopped = true;
         //animator.SetFloat("Animation", 4);
         animator.Play("SitDown");
