@@ -66,6 +66,8 @@ public class Catco : Gato
             case EstadosFSM.IR_PLATO:
                 if (pillado || !mundo.hayPlato() || cocineroEnElCamino)
                 {
+                    Debug.Log("Salgo por patas");
+
                     runTo(puestoCaco);
                     estadoActual = EstadosFSM.VOLVER;
                 }
@@ -128,4 +130,5 @@ public class Catco : Gato
             cocineroEnElCamino = true;
         }
     }
+
 }

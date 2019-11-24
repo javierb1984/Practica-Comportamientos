@@ -14,6 +14,7 @@ public class Cocinero : Gato
     private GameObject plato;
     private float timer;
     private float cocinaTimer;
+    private Catco catco;
     
 
     //Para caminar por la cocina
@@ -25,7 +26,7 @@ public class Cocinero : Gato
     // Start is called before the first frame update
     void Start()
     {
-        posMesaPedidos = mundo.mesaPedidos.transform.position;
+        posMesaPedidos = mundo.posMesaPedidos;
         transform.position = mundo.puestoCocinero;
         this.min = mundo.minCocinero;
         this.max = mundo.maxCocinero;
@@ -62,7 +63,9 @@ public class Cocinero : Gato
                 //Si acabade cocinar
                 if (timer <= 0)
                 {
-                    pick(mundo.getPlato().plato);
+                    Plato comida = mundo.getPlato();
+
+                    pick(comida.plato);
                     walkTo(posMesaPedidos);
                     estadoActual = EstadosFSM.LLEVAR_COMIDA;
                     estadoCocinar = CocinarFSM.PENSAR;
@@ -80,15 +83,7 @@ public class Cocinero : Gato
                     mundo.setPlato(platoActual.comida, platoActual.mesa, mundo.plato, platoActual.cliente);
                     timer = Random.Range(10f, 20f);
                 }
-                //If con percepción del ladron en el camino
-                if (false)
-                {
-                    angry();
-                    //referenciaCatco.Pillado();
-                    timer = Random.Range(2f, 3f);
-                    estadoActual = EstadosFSM.ECHAR_LADRON;
-                    
-                }
+                
                 break;
 
             case EstadosFSM.ECHAR_LADRON:
@@ -96,7 +91,7 @@ public class Cocinero : Gato
 
                 if(timer <= 0)
                 {
-                    timer = Random.Range(10f, 20f);
+                    timer = Random.Range(10f, 15f);
                     estadoActual = EstadosFSM.COCINAR;
                 }
                 
@@ -110,6 +105,7 @@ public class Cocinero : Gato
                     mundo.pushPlato(platoActual);
                     platoActual = null;
                     estadoActual = EstadosFSM.ESPERAR;
+                    wait();
                 }
                     
                 break;
@@ -147,6 +143,20 @@ public class Cocinero : Gato
                 if (isInPosition())
                     estadoCocinar = CocinarFSM.PENSAR;
                 break;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Ladron"))
+        {
+            Debug.Log("He pillado al ladron");
+            catco = other.transform.GetComponentInParent<Catco>();
+            catco.Pillado();
+            angry();
+            timer = Random.Range(2f, 3f);
+            estadoActual = EstadosFSM.ECHAR_LADRON;
+            
         }
     }
 }

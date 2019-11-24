@@ -171,6 +171,7 @@ public class Cliente : Gato
                 if (servido)
                 {
                     eat();
+                    
                     estadoActual = EstadosFSM.COMER;
                 }
                 break;
@@ -179,7 +180,7 @@ public class Cliente : Gato
                 if(timer <= 0)
                 {
                     walkTo(mundo.posDestroy);
-
+                    mundo.clienteLeaves(mesaActual);
                     estadoActual = EstadosFSM.SALIR;
                 }
                 break;
@@ -187,7 +188,7 @@ public class Cliente : Gato
             case EstadosFSM.SALIR:
                 if (isInPosition())
                 {
-                    mundo.clienteLeaves(mesaActual);
+                    
                     Destroy(gameObject);
                     gameManager.borrarCliente();
                 }

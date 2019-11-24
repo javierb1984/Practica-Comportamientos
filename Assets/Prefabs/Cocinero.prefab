@@ -107,6 +107,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65156713673318136
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3791496230444532486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.5, z: 2}
+  m_Center: {x: 0, y: 0.25, z: 1}
 --- !u!95 &856435855
 Animator:
   serializedVersion: 3
@@ -171,6 +184,14 @@ PrefabInstance:
     - target: {fileID: 100058, guid: 1573bcd10d1d9f44fa79476494551e52, type: 3}
       propertyPath: m_Name
       value: Cocinero
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1573bcd10d1d9f44fa79476494551e52, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 1573bcd10d1d9f44fa79476494551e52, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400058, guid: 1573bcd10d1d9f44fa79476494551e52, type: 3}
       propertyPath: m_LocalPosition.x

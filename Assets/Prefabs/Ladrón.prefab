@@ -92,7 +92,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100058, guid: 75c40bde8b81e1744b7b905834bc72e3, type: 3}
       propertyPath: m_Name
-      value: "Ladr\xF3n"
+      value: Ladron
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 75c40bde8b81e1744b7b905834bc72e3, type: 3}
+      propertyPath: m_TagString
+      value: Ladron
       objectReference: {fileID: 0}
     - target: {fileID: 100058, guid: 75c40bde8b81e1744b7b905834bc72e3, type: 3}
       propertyPath: m_Layer
