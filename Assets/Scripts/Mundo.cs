@@ -96,6 +96,7 @@ public class Mundo : MonoBehaviour
     /// </summary>
     public void pushComanda(int mesa, string comida, Cliente cliente)
     {
+        Debug.Log("Se ha añadido comanda");
         if (comandas.Count <= MAX_COMANDAS)
         {
             comandas.Enqueue(new Plato(mesa, comida, null, cliente));

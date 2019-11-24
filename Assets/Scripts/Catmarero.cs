@@ -100,6 +100,7 @@ public class Catmarero : Gato {
                 {
                     distraido = false;
                     vuelveAlTrabajo = false;
+                    mirarEncargado = false;
                     estadoDistraerse = EstadosDistraerse.TRABAJAR;
                 }
                 break;
@@ -198,11 +199,11 @@ public class Catmarero : Gato {
             case EstadosFSM1.TOMAR_NOTA:
                 //Plato actual = mundo.clienteAtendido();
                 pedidoActual = mundo.ComidaAleatoria();
+                walkTo(muroComandas);
                 estadoActual = EstadosFSM1.LLEVAR_COMANDA;
             break;
 
-            case EstadosFSM1.LLEVAR_COMANDA:
-                walkTo(muroComandas);
+            case EstadosFSM1.LLEVAR_COMANDA:              
 
                 if (isInPosition())
                 {
