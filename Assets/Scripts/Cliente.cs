@@ -37,7 +37,7 @@ public class Cliente : Gato
         transform.position = new Vector3(Random.Range(min.x, max.x), Random.Range(min.y, max.y), Random.Range(min.z, max.z));
 
         //Segundos
-        this.timer = Random.Range(5f, 20f);
+        this.timer = Random.Range(5f, 10f);
         this.estadoActual = EstadosFSM.VAGAR;
         this.estadoVagar = VagarFSM.PENSAR;
         this.inPosCola = false;
@@ -70,7 +70,7 @@ public class Cliente : Gato
                     }
                     else
                     {
-                        timer = Random.Range(5, 20);
+                        timer = Random.Range(5, 10);
                     }
 
                 }
@@ -125,7 +125,7 @@ public class Cliente : Gato
                 walkTo(maitre.transform.position);
                 if (avisoSentarse)
                 {
-                    timer = Random.Range(5, 20);//reutilizar timer o usar uno nuevo
+                    timer = Random.Range(5, 10);//reutilizar timer o usar uno nuevo
                     Vector3 position = mundo.mesas[mesaActual].transform.position;
                     walkTo(position);                    
 
@@ -142,7 +142,7 @@ public class Cliente : Gato
 
                 if (isLookingTowards(rotation.transform.position))
                 {
-                    sitDown(mundo.mesas[mesaActual].transform.parent);
+                    sitDown();
                     mundo.pushCliente(mesaActual, this);
                     maitre.Sentado();
                     estadoActual = EstadosFSM.DECIDIR_MENU;

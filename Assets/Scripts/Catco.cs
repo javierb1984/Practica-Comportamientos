@@ -16,6 +16,8 @@ public class Catco : Gato
     //Timers de comer
     private float timer;
 
+    private bool cocineroEnElCamino;
+
     void Start()
     {
         //Posicion de spawn
@@ -25,6 +27,8 @@ public class Catco : Gato
         posPlato = mundo.posCocina;
         comida = null;
         puertaTrasera = mundo.puertaTrasera;
+        cocineroEnElCamino = false;
+        timer = 5;
         idle();
     }
 
@@ -40,10 +44,12 @@ public class Catco : Gato
         switch (estadoActual)
         {
             case EstadosFSM.ESPERAR:
-
-                if (mundo.hayPlato())
+                timer -= Time.deltaTime;
+                rotateTowards(puestoCaco);
+                if (mundo.hayPlato() && timer <= 0)
                 {
                     walkTo(puertaTrasera);
+                    cocineroEnElCamino = false;
                     estadoActual = EstadosFSM.ENTRAR;
                 }
                 break;
@@ -51,7 +57,6 @@ public class Catco : Gato
             case EstadosFSM.ENTRAR:
                 if (isInPosition())
                 {
-                    //If con percepción del cocinero en el camino
                     Plato plato = mundo.pollPlato();
                     walkTo(posPlato);
                     estadoActual = EstadosFSM.IR_PLATO;
@@ -59,9 +64,10 @@ public class Catco : Gato
                 break;
 
             case EstadosFSM.IR_PLATO:
-                if (pillado || !mundo.hayPlato())
+                if (pillado || !mundo.hayPlato() || cocineroEnElCamino)
                 {
                     Debug.Log("Salgo por patas");
+
                     runTo(puestoCaco);
                     estadoActual = EstadosFSM.VOLVER;
                 }
@@ -90,7 +96,11 @@ public class Catco : Gato
                         estadoActual = EstadosFSM.COMER;
                     }
                     else
+                    {
+                        timer = 5;
+                        idle();
                         estadoActual = EstadosFSM.ESPERAR;
+                    }
                     pillado = false;
                 }
                 break;
@@ -113,5 +123,12 @@ public class Catco : Gato
         pillado = true;
     }
 
-    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Cocinero"))
+        {
+            cocineroEnElCamino = true;
+        }
+    }
+
 }

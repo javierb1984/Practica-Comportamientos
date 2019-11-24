@@ -48,7 +48,7 @@ public class Catmarero : Gato {
         distraido = false;
         mirarEncargado = false;
         timer = waitingTime;
-        timerDistraerse = 0;
+        timerDistraerse = 30;
         idle();
 	}
 
@@ -66,7 +66,7 @@ public class Catmarero : Gato {
                 timerDistraerse -= Time.deltaTime;
                 if (veJuguete && timerDistraerse <= 0)
                 {
-                    timerDistraerse = 30;
+                    timerDistraerse = 60;
                     veJuguete = false;
 
                     walkTo(juguete.transform.GetChild(0).position);
@@ -180,6 +180,8 @@ public class Catmarero : Gato {
                 {
                     if (clienteActual.estaDecidido())
                     {
+                        //Si se ha decidido sacamos al cliente de la cola
+                        mundo.popCliente();
                         clienteActual.atender();
                         estadoActual = EstadosFSM1.TOMAR_NOTA;
                     }
