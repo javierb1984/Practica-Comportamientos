@@ -749,6 +749,7 @@ GameObject:
   - component: {fileID: 282840814}
   - component: {fileID: 282840813}
   - component: {fileID: 282840811}
+  - component: {fileID: 282840812}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -764,6 +765,64 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282840810}
   m_Enabled: 1
+--- !u!114 &282840812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282840810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ef8c68bade09b41aca258d42a632f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastTab: 0
+  movementSettingsFoldout: 0
+  zoomingSettingsFoldout: 0
+  rotationSettingsFoldout: 0
+  heightSettingsFoldout: 0
+  mapLimitSettingsFoldout: 0
+  targetingSettingsFoldout: 0
+  inputSettingsFoldout: 0
+  useFixedUpdate: 0
+  keyboardMovementSpeed: 10
+  screenEdgeMovementSpeed: 3
+  followingSpeed: 5
+  rotationSped: 60
+  panningSpeed: 10
+  mouseRotationSpeed: 60
+  autoHeight: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  maxHeight: 3
+  minHeight: 8
+  heightDampening: 3
+  keyboardZoomingSensitivity: 2
+  scrollWheelZoomingSensitivity: 25
+  limitMap: 1
+  limitX: 20
+  limitY: 30
+  targetFollow: {fileID: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
+  useScreenEdgeInput: 1
+  screenEdgeBorder: 25
+  useKeyboardInput: 1
+  horizontalAxis: Horizontal
+  verticalAxis: Vertical
+  usePanning: 1
+  panningKey: 325
+  useKeyboardZooming: 1
+  zoomInKey: 101
+  zoomOutKey: 113
+  useScrollwheelZooming: 1
+  zoomingAxis: Mouse ScrollWheel
+  useKeyboardRotation: 1
+  rotateRightKey: 120
+  rotateLeftKey: 122
+  useMouseRotation: 1
+  mouseRotationKey: 324
 --- !u!20 &282840813
 Camera:
   m_ObjectHideFlags: 0
@@ -788,7 +847,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 18.125933
+  field of view: 19.719793
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -813,13 +872,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282840810}
-  m_LocalRotation: {x: 0.71762115, y: -0.22866571, z: 0.15569478, w: 0.6391331}
-  m_LocalPosition: {x: -0.17, y: 10.37, z: -10.65}
+  m_LocalRotation: {x: 0.04300843, y: -0.91505784, z: 0.3432252, w: 0.20740291}
+  m_LocalPosition: {x: 4.56, y: 11, z: 15.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 81.30801, y: -152.903, z: -121.269005}
+  m_LocalEulerAnglesHint: {x: 40.239002, y: 207.295, z: -355.216}
 --- !u!1 &315661316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 3c027e609c7bb3f40a14e89b6b93ef5f,
