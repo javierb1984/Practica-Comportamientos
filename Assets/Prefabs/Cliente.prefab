@@ -749,6 +749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8807024045787937566}
   - component: {fileID: 6456931086255101753}
+  - component: {fileID: 1228206124520860041}
   m_Layer: 0
   m_Name: Gatete
   m_TagString: Untagged
@@ -843,6 +844,24 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000002861023, y: 7.3111706, z: 21.200424}
     m_Extent: {x: 19.077492, y: 38.13137, z: 23.687866}
   m_DirtyAABB: 0
+--- !u!114 &1228206124520860041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088485364624449606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a451e1cddbba2b14c9ea15fbd9ad56c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PossibleTextures:
+  - {fileID: 2800000, guid: c5d89c873f438874e83916b51e0c45cd, type: 3}
+  - {fileID: 2800000, guid: 5a573b0c3d2d11e45895a63bb285e3f1, type: 3}
+  - {fileID: 2800000, guid: fa97f2598eb65ac49a63e4c537aea92d, type: 3}
+  - {fileID: 2800000, guid: 9aba509805717f74db8315250b4081d8, type: 3}
+  - {fileID: 2800000, guid: f619c7ccd7690b746a9f0ea8bff23b53, type: 3}
 --- !u!1 &7645054124531483730
 GameObject:
   m_ObjectHideFlags: 0

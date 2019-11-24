@@ -147,7 +147,7 @@ public class Catmarero : Gato {
                 Plato platoActual = mundo.takePlato();
                 pedidoActual = platoActual.comida;
                 clienteActual = platoActual.cliente;
-                posMesaCliente = mundo.mesas[platoActual.mesa].transform.position;
+                posMesaCliente = mundo.mesas[platoActual.mesa].transform.parent.GetChild(0).position;
                 pick(platoActual.plato);
                 walkTo(posMesaCliente);
                 estadoActual = EstadosFSM1.LLEVAR_PEDIDO;

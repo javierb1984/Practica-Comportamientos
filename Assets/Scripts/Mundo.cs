@@ -51,7 +51,6 @@ public class Mundo : MonoBehaviour
     //Cliente-plato-objeto
     private Queue<Plato> comandas;
     private Queue<Plato> platos;
-    private int nextPlatoPosition;
 
     //Clientes por sentarse
     private Queue<Cliente> clientesCola;
@@ -84,7 +83,6 @@ public class Mundo : MonoBehaviour
             mesasOcupadas[i] = false;
         }
 
-        nextPlatoPosition = 0;
         MAX_COMANDAS = posicionesPedidos.Length;
     }
 
@@ -131,11 +129,11 @@ public class Mundo : MonoBehaviour
         bool pushed = false;
         if (platos.Count < MAX_COMANDAS)
         {
-            plato.plato = Instantiate(this.plato, posicionesPedidos[nextPlatoPosition].transform.position, this.plato.transform.rotation);
+            plato.plato = Instantiate(this.plato, posicionesPedidos[platos.Count].transform.position, this.plato.transform.rotation);
             platos.Enqueue(plato);
             pushed = true;
-            nextPlatoPosition = (nextPlatoPosition + 1) % MAX_COMANDAS;
         }
+        Debug.Log(pushed);
         return pushed;
     }
 

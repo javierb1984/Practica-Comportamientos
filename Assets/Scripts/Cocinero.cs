@@ -114,7 +114,8 @@ public class Cocinero : Gato
                         walkTo(posCocinero);
                         estadoActual = EstadosFSM.ESPERAR;
                     }
-                    wait();
+                    else
+                        wait();
                 }
                     
                 break;
